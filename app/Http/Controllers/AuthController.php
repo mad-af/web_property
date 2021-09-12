@@ -29,14 +29,19 @@ class AuthController extends Controller
         ]);
         if (Auth::attempt($payload)) {
             $req->session()->regenerate();
-
-            return redirect()->intended('/admin/property');
+            if(in_array(Auth::user()->role, [2, 3])) {
+                return redirect()->intended('/admin/property');
+            }
+            else if(Auth::user()->role == 1) {
+                return redirect()->intended('/user/property');
+            }
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+
     public function authRegisterAction (Request $req) {
         $payload = $req->validate([
             'firstName' => ['required'],
@@ -63,6 +68,7 @@ class AuthController extends Controller
         }
         return redirect('/login');
     }
+
     public function authLogoutAction (Request $req) {
         Auth::logout();
         $req->session()->invalidate();
