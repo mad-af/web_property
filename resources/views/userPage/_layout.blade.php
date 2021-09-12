@@ -32,10 +32,26 @@
 
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a href="{{url('/')}}" class="nav-link">Beranda</a></li>
-        <li class="nav-item {{ Request::is('find-home') || Request::is('find-home/*') ? 'active' : ''}}"><a href="{{url('/find-home')}}" class="nav-link">Find Home</a></li>
-        <li class="nav-item {{ Request::is('about-us') || Request::is('about-us/*') ? 'active' : ''}}"><a href="{{url('/about-us')}}" class="nav-link">Tentang Kami</a></li>
-        <li ><a href="{{url('/login')}}" class="btn btn-primary btn-sm py-3 mt-2" style="padding:0.5rem 1.5em !important">Masuk</a></li>
+        <li class="nav-item {{ Request::is('user/property') || Request::is('user/property/*') ? 'active' : ''}}"><a href="{{url('user/property')}}" class="nav-link">Properti</a></li>
+        <li class="nav-item {{ Request::is('user/find-home') || Request::is('user/find-home/*') ? 'active' : ''}}"><a href="{{url('user/find-home')}}" class="nav-link">Find Home</a></li>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle">Hello, Mochamad</a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" href="{{url('user/cart')}}">
+              <em class="fa fa-shopping-cart" aria-hidden="true"></em> &ensp; Keranjang</a>
+            </li>
+            <li>
+              <form action="{{url('/logout')}}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">
+                  <span><em class="fa fa-sign-out" aria-hidden="true"></em> &ensp; Keluar</span>
+                </button>
+              </form>
+            </li>
+          </ul>
+        </li>
+
       </ul>
     </div>
   </div>
@@ -62,10 +78,9 @@
       <div class="col-md">
           <div class="ftco-footer-widget mb-4">
           <ul class="list-unstyled">
-            <li><a href="{{url('/')}}"><span class="fa fa-chevron-right mr-2"></span>Beranda</a></li>
-            <li><a href="{{url('/property')}}"><span class="fa fa-chevron-right mr-2"></span>Properti</a></li>
-            <li><a href="{{url('/find-home')}}"><span class="fa fa-chevron-right mr-2"></span>Find Home</a></li>
-            <li><a href="{{url('/about-us')}}"><span class="fa fa-chevron-right mr-2"></span>Tentang Kami</a></li>
+            <li><a href="{{url('/user/property')}}"><span class="fa fa-chevron-right mr-2"></span>Properti</a></li>
+            <li><a href="{{url('/user/find-home')}}"><span class="fa fa-chevron-right mr-2"></span>Find Home</a></li>
+            <li><a href="{{url('/user/cart')}}"><span class="fa fa-chevron-right mr-2"></span>Keranjang</a></li>
           </ul>
         </div>
       </div>

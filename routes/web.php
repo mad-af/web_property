@@ -15,7 +15,6 @@ use App\Http\Controllers\AuthController;
 */
 
 // auth
-
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'authLoginView']);
     Route::get('/register', [AuthController::class, 'authRegisterView']);
@@ -29,23 +28,38 @@ Route::middleware(['guest'])->group(function () {
 Route::get('/', function () {
     return view('webPage.index');
 });
-Route::get('/property', function () {   
-    return view('webPage.property');
-});
 Route::get('/find-home', function () {
-    return view('webPage.FindHome');
+    return view('webPage.findHome');
 });
 Route::get('/about-us', function () {
     return view('webPage.aboutUs');
 });
 
+Route::middleware(['auth', 'user'])->group(function () {
+    Route::get('/user/property', function () {   
+        return view('userPage.property');
+    });
+    Route::get('/user/find-home', function () {   
+        return view('userPage.findHome');
+    });
+    Route::get('/user/cart', function () {   
+        return view('userPage.cart');
+    });
+});
+
 // admin-page
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/property', function () {
         return view('adminPage.property');
     });
+    Route::get('/admin/property/add', function () {
+        return view('adminPage.propertyAdd');
+    });
     Route::get('/admin/user', function () {
         return view('adminPage.user');
+    });
+    Route::get('/admin/user/add', function () {
+        return view('adminPage.userAdd');
     });
     Route::get('/admin/order', function () {
         return view('adminPage.order');
