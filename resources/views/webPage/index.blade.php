@@ -93,10 +93,15 @@
     </div>
     <div class="row ftco-animate">
       <div class="col-md-12">
-        <div class="register-notif" style="background-color: gray; position: absolute; z-index:999;">
-          <a href="#" class="register-button">
-
-          </a>
+        <div class="register-notif" style="position: absolute; z-index:999;">
+          <span class="register-text">
+            <p>
+              Ayo bikin akun untuk melihat lebih lanjut
+            </p>
+            <a href="#" class="register-button">
+              Daftar
+            </a>
+          </span>
         </div>
         <div class="carousel-properties owl-carousel">
           <?php
@@ -115,7 +120,7 @@
                   <text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
                 </svg>
               </a>
-              <div class="text">
+              <div class="text" style="background: rgb(243,243,243);">
                 <h3 style="font-weight: bolder">
                   <strong>
                     Cluster Balmoral B3 No.73
@@ -125,12 +130,12 @@
                 <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. 3 Miliar</h2>
                 <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                   <div class="d-flex align-items-center">
-                    <img style="max-width: 25px; max-height: 25px" src="{{asset('images/webPage/bed-solid.svg')}}">
+                    <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/3030/3030336.png">
                     <h3 class="ml-2">3 kamar tidur</h3>
                   </div>
-                  <img style="max-width: 15px; max-height: 15px" src="{{asset('images/webPage/bath-solid.svg')}}" alt="">
-                  <span class="d-flex">3 kamar mandi</span>
-                  <a href="#" class="btn d-flex btn-success">Jual</a>
+                  <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/638/638137.png" alt="">
+                  <span class="d-flex" style="margin-left: 0.5rem">3 kamar mandi</span>
+                  <a href="#" class="btn d-flex btn-success" style="border-radius: 0%">Jual</a>
                 </div>
                 <div class="list-team d-flex align-items-center mt-2 border-top">
                   <a href="#" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>
