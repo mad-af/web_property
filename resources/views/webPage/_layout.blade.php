@@ -20,6 +20,16 @@
   
   <link rel="stylesheet" href="{{asset('css/flaticon.css')}}">
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
+  <style>
+    .register-notif{
+      opacity: 1%;
+      width: calc(100% - 30px); 
+      height: 100%;
+    }
+    .register-notif:hover{
+      opacity: 30%;
+    }
+    </style>
 </head>
 <body> 
 

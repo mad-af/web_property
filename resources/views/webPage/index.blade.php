@@ -93,95 +93,53 @@
     </div>
     <div class="row ftco-animate">
       <div class="col-md-12">
+        <div class="register-notif" style="background-color: gray; position: absolute; z-index:999;">
+          <a href="#" class="register-button">
+
+          </a>
+        </div>
         <div class="carousel-properties owl-carousel">
-          <div class="item">
-            <div class="property-wrap ftco-animate">
-              <a href="#" class="img" style="background-image: url(images/work-1.jpg);">
-                <div class="rent-sale">
-                  <span class="sale">Sale</span>
-                </div>
-                <p class="price"><span class="orig-price">$300,000</span></p>
-              </a>
-              <div class="text">
-                <ul class="property_list">
-                  <li><span class="flaticon-bed"></span>3</li>
-                  <li><span class="flaticon-bathtub"></span>2</li>
-                  <li><span class="flaticon-floor-plan"></span>1,878 sqft</li>
-                </ul> 
-                <h3><a href="#">The Blue Sky Home</a></h3>
-                <span class="location">Oakland</span>
-                <a href="#" class="d-flex align-items-center justify-content-center btn-custom">
-                  <span class="fa fa-link"></span>
-                </a>
-                <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
-                  <div class="d-flex align-items-center">
-                    <div class="img" style="background-image: url(images/person_1.jpg);"></div>
-                    <h3 class="ml-2">John Dorf</h3>
-                  </div>
-                  <span class="text-right">2 weeks ago</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="property-wrap ftco-animate">
-              <a href="#" class="img" style="background-image: url(images/work-2.jpg);">
-                <div class="rent-sale">
-                  <span class="rent">Rent</span>
-                </div>
-                <p class="price"><span class="old-price">800,000</span><span class="orig-price">$3,050<small> / mo</small></span></p>
-              </a>
-              <div class="text">
-                <ul class="property_list">
-                  <li><span class="flaticon-bed"></span>3</li>
-                  <li><span class="flaticon-bathtub"></span>2</li>
-                  <li><span class="flaticon-floor-plan"></span>1,878 sqft</li>
-                </ul>
-                <h3><a href="#">The Blue Sky Home</a></h3>
-                <span class="location">Oakland</span>
-                <a href="#" class="d-flex align-items-center justify-content-center btn-custom">
-                  <span class="fa fa-link"></span>
-                </a>
-                <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
-                  <div class="d-flex align-items-center">
-                    <div class="img" style="background-image: url(images/person_1.jpg);"></div>
-                    <h3 class="ml-2">John Dorf</h3>
-                  </div>
-                  <span class="text-right">2 weeks ago</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <?php
+            for ($i=0; $i < 3; $i++) { 
+          ?>
           <div class="item">
             <div class="property-wrap ftco-animate">
               <a href="#" class="img" style="background-image: url(images/work-3.jpg);">
-                <div class="rent-sale">
-                  <span class="rent">Rent</span>
-                </div>
-                <p class="price"><span class="orig-price">$300<small> / mo</small></span></p>
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="100%" 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  role="img" aria-label="Placeholder: Image cap" 
+                  preserveAspectRatio="xMidYMid slice" 
+                  focusable="false">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="#6c757d"></rect>
+                  <text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+                </svg>
               </a>
               <div class="text">
-                <ul class="property_list">
-                  <li><span class="flaticon-bed"></span>3</li>
-                  <li><span class="flaticon-bathtub"></span>2</li>
-                  <li><span class="flaticon-floor-plan"></span>1,878 sqft</li>
-                </ul>
-                <h3><a href="#">The Blue Sky Home</a></h3>
-                <span class="location">Oakland</span>
-                <a href="#" class="d-flex align-items-center justify-content-center btn-custom">
-                  <span class="fa fa-link"></span>
-                </a>
+                <h3 style="font-weight: bolder">
+                  <strong>
+                    Cluster Balmoral B3 No.73
+                  </strong>
+                </h3>
+                <span class="location" style="font-size: 90%">Surabaya, Jawa Timur</span>
+                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. 3 Miliar</h2>
                 <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                   <div class="d-flex align-items-center">
-                    <div class="img" style="background-image: url(images/person_1.jpg);"></div>
-                    <h3 class="ml-2">John Dorf</h3>
+                    <img style="max-width: 25px; max-height: 25px" src="{{asset('images/webPage/bed-solid.svg')}}">
+                    <h3 class="ml-2">3 kamar tidur</h3>
                   </div>
-                  <span class="text-right">2 weeks ago</span>
+                  <img style="max-width: 15px; max-height: 15px" src="{{asset('images/webPage/bath-solid.svg')}}" alt="">
+                  <span class="d-flex">3 kamar mandi</span>
+                  <a href="#" class="btn d-flex btn-success">Jual</a>
+                </div>
+                <div class="list-team d-flex align-items-center mt-2 border-top">
+                  <a href="#" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>
                 </div>
               </div>
             </div>
-          </div>
-        
+          </div>        
+          <?php }?>
+        </div>
       </div>
     </div>
   </div>
