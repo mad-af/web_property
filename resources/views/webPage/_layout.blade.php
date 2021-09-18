@@ -24,7 +24,7 @@
     .register-notif{
       opacity: 0%;
       width: calc(100% - 30px); 
-      height: 100%;
+      height: calc(100% - 60px);
     }
     .register-notif:hover{
       opacity: 100%;
