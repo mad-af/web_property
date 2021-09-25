@@ -23,7 +23,7 @@ Find Home
     </div>
     <div class="col" style="margin-left: 0; margin-right: 2%; box-sizing: content-box; margin-top: 1.2%; margin-bottom: 1.2%;">
         <div style="border: solid green; max-height: 553.164px; height: 100%; width: 100%; ">
-            
+             
             {{-- Card --}}
             <div id="item-card" style="margin: 0 auto; max-width: 386.667px; display: none" class="item">
                 <div class="property-wrap ftco-animate" style="margin-bottom: 0">
