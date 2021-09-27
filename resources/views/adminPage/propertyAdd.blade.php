@@ -3,7 +3,14 @@
 @section('content')
   <h2 class="col h2 mb-4 text-gray-800 font-weight-bold">Membuat Properti</h2>
 
-  <form action="">
+  @if($errors->any())
+  <div class="alert alert-danger" role="alert">
+    <strong>Gagal</strong> - {{ $errors->first() }}
+  </div>
+  @endif
+
+  <form action="{{url('/admin/property/add')}}" method="POST" enctype="multipart/form-data">
+    @csrf
     <!-- GAMBAR PROPERTI -->
     <div class="card mb-3">
       <div class="card-header">
@@ -11,7 +18,7 @@
       </div>
       <div class="card-body">
         <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile" required>
+          <input name="image" type="file" class="custom-file-input" id="customFile" required>
           <label class="custom-file-label" for="customFile">Upload foto properti</label>
         </div>
       </div>
@@ -26,34 +33,35 @@
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label>Nama Properti</label>
-            <input type="text" class="form-control" placeholder="Nama atau judul properti" required>
+            <input name="title" type="text" class="form-control" placeholder="Nama atau judul properti" required>
           </div>
           <div class="col-md-6 mb-3">
             <label>Harga Properti</label>
-            <input type="text" class="form-control" placeholder="Masukan harga (Rupiah)" required>
+            <input name="price" type="number" class="form-control" placeholder="Masukan harga (Rupiah)" required>
           </div>
         </div>
 
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label>Alamat</label>
-            <input type="text" class="form-control" placeholder="Masukan alamat" required>
+            <input name="address" type="text" class="form-control" placeholder="Masukan alamat" required>
           </div>
           <div class="col-md-3 mb-3">
             <label>Status</label>
-            <select class="custom-select" required>
+            <select name="status" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih status</option>
-              <option value="coba">Dijual</option>
-              <option value="coba">Disewakan</option>
+              @for ($i = 0; $i < count($homeStatus); $i++)
+              <option value="{{ $i }}">{{ $homeStatus[$i] }}</option>
+              @endfor
             </select>
           </div>
           <div class="col-md-3 mb-3">
-            <label>Status</label>
-            <select class="custom-select" required>
+            <label>Kategori</label>
+            <select name="category" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih kategori</option>
-              <option value="coba">Ruko</option>
-              <option value="coba">Rumah</option>
-              <option value="coba">Tanah</option>
+              @for ($i = 0; $i < count($homeCategory); $i++)
+              <option value="{{ $i }}">{{ $homeCategory[$i] }}</option>
+              @endfor
             </select>
           </div>
         </div>
@@ -69,18 +77,20 @@
       <div class="form-row">
         <div class="col-md-6 mb-3">
             <label>Kamar Tidur</label>
-            <select class="custom-select" required>
+            <select name="bedRoom" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih jumlah kamar tidur</option>
-              <option value="coba">Dijual</option>
-              <option value="coba">Disewakan</option>
+              @for ($i = 0; $i < count($bedRoom); $i++)
+              <option value="{{ $i }}">{{ $bedRoom[$i] }}</option>
+              @endfor
             </select>
           </div>
           <div class="col-md-6 mb-3">
             <label>Pemanas</label>
-            <select class="custom-select" required>
+            <select name="heating" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih jumlah pemanas</option>
-              <option value="coba">Dijual</option>
-              <option value="coba">Disewakan</option>
+              @for ($i = 0; $i < count($heating); $i++)
+              <option value="{{ $i }}">{{ $heating[$i] }}</option>
+              @endfor
             </select>
           </div>
         </div>
@@ -88,36 +98,38 @@
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label>Kamar Mandi</label>
-            <select class="custom-select" required>
+            <select name="bathRoom" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih jumlah kamar mandi</option>
-              <option value="coba">Dijual</option>
-              <option value="coba">Disewakan</option>
+              @for ($i = 0; $i < count($bathRoom); $i++)
+              <option value="{{ $i }}">{{ $bathRoom[$i] }}</option>
+              @endfor
             </select>
           </div>
           <div class="col-md-6 mb-3">
             <label>Ukuran Panjang</label>
-            <input type="text" class="form-control" placeholder="Masukan ukuran panjang (meter)" required>
+            <input name="length" type="number" class="form-control" placeholder="Masukan ukuran panjang (meter)" required>
           </div>
         </div>
 
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label>Tempat Parkir</label>
-            <select class="custom-select" required>
+            <select name="parkingLot" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih jumlah parkir</option>
-              <option value="coba">Dijual</option>
-              <option value="coba">Disewakan</option>
+              @for ($i = 0; $i < count($parkingLot); $i++)
+              <option value="{{ $i }}">{{ $parkingLot[$i] }}</option>
+              @endfor
             </select>
           </div>
           <div class="col-md-6 mb-3">
             <label>Ukuran Panjang</label>
-            <input type="text" class="form-control" placeholder="Masukan ukuran lebar (meter)" required>
+            <input name="width" type="number" class="form-control" placeholder="Masukan ukuran lebar (meter)" required>
           </div>
         </div>
 
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Deskripsi Properti</label>
-          <textarea class="form-control" placeholder="Deskripsikan properti anda" id="exampleFormControlTextarea1" rows="3" required></textarea>
+          <textarea name="description" class="form-control" placeholder="Deskripsikan properti anda" id="exampleFormControlTextarea1" rows="3" required></textarea>
         </div>
 
       </div>
@@ -133,29 +145,32 @@
       <div class="form-row">
         <div class="col-md-6 mb-3">
             <label>Gaji</label>
-            <select class="custom-select" required>
+            <select name="subSalaryId" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih gaji per bulan</option>
-              <option value="coba">Dijual</option>
-              <option value="coba">Disewakan</option>
+              @foreach ($salary as $item)
+              <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+              @endforeach
             </select>
           </div>
           <div class="col-md-6 mb-3">
-            <label>Pemanas</label>
-            <select class="custom-select" required>
+            <label>Tipe Rumah</label>
+            <select name="subHomeFurnitureId" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih Perabotan Rumah</option>
-              <option value="coba">Dijual</option>
-              <option value="coba">Disewakan</option>
+              @foreach ($houseType as $item)
+              <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+              @endforeach
             </select>
           </div>
         </div>
 
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label>Kamar Mandi</label>
-            <select class="custom-select" required>
+            <label>Anggota Keluarga</label>
+            <select name="subFamilyMemberId" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih jumlah Anggota Keluarga</option>
-              <option value="coba">Dijual</option>
-              <option value="coba">Disewakan</option>
+              @foreach ($familyMember as $item)
+              <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+              @endforeach
             </select>
           </div>
         </div>

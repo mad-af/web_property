@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,12 +50,9 @@ Route::middleware(['auth', 'user'])->group(function () {
 
 // admin-page
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/property', function () {
-        return view('adminPage.property');
-    });
-    Route::get('/admin/property/add', function () {
-        return view('adminPage.propertyAdd');
-    });
+    Route::get('/admin/property', [PropertyController::class, 'listPropertyView']);
+    Route::get('/admin/property/add', [PropertyController::class, 'addPropertyView']);
+    Route::post('/admin/property/add', [PropertyController::class, 'addPropertyAction']);
     Route::get('/admin/user', function () {
         return view('adminPage.user');
     });

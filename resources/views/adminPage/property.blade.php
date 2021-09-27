@@ -3,6 +3,12 @@
 @section('content')
   <h2 class="col h2 mb-4 text-gray-800 font-weight-bold">Properti</h2>
 
+  @if(session('success'))
+  <div class="alert alert-success" role="alert">
+    <strong>Sukses</strong> - {{ session('success') }}
+  </div>
+  @endif
+
   <div class="col">
     <a href="{{url('admin/property/add')}}" class="float-right btn btn-primary mb-3">Tambah Properti</a>
   </div>
