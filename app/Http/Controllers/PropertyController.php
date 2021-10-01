@@ -8,6 +8,8 @@ use App\Helper\Commons;
 use App\Models\Sub;
 use App\Models\Property;
 
+use File;
+
 class PropertyController extends Controller {
     // VIEW
     public function listPropertyView () {
@@ -89,7 +91,11 @@ class PropertyController extends Controller {
 
     public function deletePropertyAction ($propertyId) {
         try {
-            Property::where('id', $propertyId)->delete();
+            $property = Property::where('id', $propertyId);
+            $imagePath = $property->select('image')->first()->image;
+            File::delete($imagePath);
+
+            $property->delete();
         } catch (\Throwable $th) {
             return back()->withErrors('Anda gagal menghapus properti.');
         }
