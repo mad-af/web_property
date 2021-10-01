@@ -52,7 +52,9 @@ Route::middleware(['auth', 'user'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/property', [PropertyController::class, 'listPropertyView']);
     Route::get('/admin/property/add', [PropertyController::class, 'addPropertyView']);
+    Route::get('/admin/property/{propertyId}', [PropertyController::class, 'detailPropertyView']);
     Route::post('/admin/property/add', [PropertyController::class, 'addPropertyAction']);
+    Route::delete('/admin/property/{propertyId}/delete', [PropertyController::class, 'deletePropertyAction']);
     Route::get('/admin/user', function () {
         return view('adminPage.user');
     });
