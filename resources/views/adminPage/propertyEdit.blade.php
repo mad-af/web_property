@@ -9,7 +9,8 @@
   </div>
   @endif
 
-  <form action="{{url('/admin/property/add')}}" method="POST" enctype="multipart/form-data">
+  <form action="{{url('/admin/property/'.$data['id'].'/edit')}}" method="POST" enctype="multipart/form-data">
+    @method('PUT')
     @csrf
     <!-- GAMBAR PROPERTI -->
     <div class="card mb-3">

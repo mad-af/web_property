@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\FindHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +30,8 @@ Route::middleware(['guest'])->group(function () {
 Route::get('/', function () {
     return view('webPage.index');
 });
-Route::get('/find-home', function () {
-    return view('webPage.findHome');
-});
+Route::get('/find-home', [FindHomeController::class, 'findHomeView']);
+Route::post('/find-home', [FindHomeController::class, 'findHomeAction']);
 Route::get('/about-us', function () {
     return view('webPage.aboutUs');
 });
@@ -54,6 +54,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/property/add', [PropertyController::class, 'addPropertyView']);
     Route::get('/admin/property/{propertyId}', [PropertyController::class, 'detailPropertyView']);
     Route::post('/admin/property/add', [PropertyController::class, 'addPropertyAction']);
+    Route::put('/admin/property/{propertyId}/edit', [PropertyController::class, 'editPropertyAction']);
     Route::delete('/admin/property/{propertyId}/delete', [PropertyController::class, 'deletePropertyAction']);
     Route::get('/admin/user', function () {
         return view('adminPage.user');

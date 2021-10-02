@@ -1,7 +1,7 @@
 @extends('adminPage/_layout')
 
 @section('content')
-  <h2 class="col h2 mb-4 text-gray-800 font-weight-bold">Edit Properti</h2>
+  <h2 class="col h2 mb-4 text-gray-800 font-weight-bold">Detail Properti</h2>
 
   @if($errors->any())
   <div class="alert alert-danger" role="alert">
