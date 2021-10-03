@@ -20,6 +20,37 @@
   
   <link rel="stylesheet" href="{{asset('css/flaticon.css')}}">
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
+  <style>
+    .register-notif{
+      opacity: 0%;
+      width: calc(100% - 30px); 
+      height: calc(100% - 60px);
+    }
+    .register-notif:hover{
+      opacity: 100%;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .register-notif .register-text{
+      position: absolute;
+      color: white;
+      padding-top: 15%;
+      font-size: 250.97%;
+      padding-inline-start: 20%;
+      padding-block-end: 20%;
+      opacity: 400%;
+      
+      /* margin-bottom: 50%; */
+    }
+    .register-notif .register-button{
+      padding: 1%;
+      padding-inline: 7%;
+      border: 3px solid white;
+      font-size: 70%;
+      color: white;
+      margin-inline: 37%;
+      filter: brightness(100%);
+    }
+    </style>
 </head>
 <body> 
 
