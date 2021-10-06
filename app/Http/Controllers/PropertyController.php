@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
 
 use App\Models\Sub;
@@ -15,6 +16,10 @@ class PropertyController extends Controller {
     public function listPropertyView () {
         $query = Property::get()->toArray();
         $data = [ 'data' => $query ];
+
+        if (Auth::user()->role == 1) {
+            return view('userPage.property', $data);
+        }
         return view('adminPage.property', $data);
     }
 

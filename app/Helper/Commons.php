@@ -8,4 +8,9 @@ class Commons {
     const BED_ROOM = ['1', '2', '3', '4', '5+'];
     const BATH_ROOM = ['1', '2', '3', '4', '5+'];
     const PARKING_LOT = ['1', '2', '3', '4', '5+'];
+    const USER_ROLE = [
+        1 => 'User',
+        2 => 'Admin',
+        3 => 'Super Admin'
+    ];
 }

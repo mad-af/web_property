@@ -10,31 +10,29 @@
   <table class="table text-center" aria-describedby="list-property">
     <thead>
       <tr class="thead-dark">
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">Nama</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Peran</th>
       </tr>
     </thead>
     <tbody>
+      @foreach ($data as $item)
       <tr style="background: #fdfdfe;">
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+        <td>{{ $item['firstName'].' '.$item['lastName'] }}</td>
+        <td>{{ $item['username'] }}</td>
+        <td>{{ $item['email'] }}</td>
+        <td>
+          @if ($item['role'] == 1)
+            <span>User</span>
+          @elseif ($item['role'] == 2)
+            <span>Admin</span>
+          @else
+            <span>Super Admin</span>
+          @endif
+        </td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
+      @endforeach
     </tbody>
   </table>
 @endsection

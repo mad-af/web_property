@@ -88,7 +88,6 @@
     <div class="row justify-content-center">
       <div class="col-md-12 heading-section text-center ftco-animate mb-5">
         <span class="subheading">APA YANG KITA TAWARKAN</span>
-        <h2 class="mb-2">Properti Unggulan</h2>
       </div>
     </div>
     <div class="row ftco-animate">
@@ -98,43 +97,33 @@
             <p>
               Ayo bikin akun untuk melihat lebih lanjut
             </p>
-            <a href="#" class="register-button">
+            <a href="{{url('/register')}}" class="register-button">
               Daftar
             </a>
           </span>
         </div>
         <div class="carousel-properties owl-carousel">
-          <?php
-            for ($i=0; $i < 3; $i++) { 
-          ?>
+          @foreach ($property as $item)
           <div class="item">
             <div class="property-wrap ftco-animate">
               <a href="#" class="img" style="background-image: url(images/work-3.jpg);">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="100%" 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  role="img" aria-label="Placeholder: Image cap" 
-                  preserveAspectRatio="xMidYMid slice" 
-                  focusable="false">
-                  <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#6c757d"></rect>
-                  <text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-                </svg>
+              <img src="{{ asset($item['image']) }}" alt="property-image">
               </a>
               <div class="text" style="background: rgb(243,243,243);">
                 <h3 style="font-weight: bolder">
                   <strong>
-                    Cluster Balmoral B3 No.73
+                    {{ $item['title'] }}
                   </strong>
                 </h3>
-                <span class="location" style="font-size: 90%">Surabaya, Jawa Timur</span>
-                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. 3 Miliar</h2>
+                <span class="location" style="font-size: 90%">{{ $item['address'] }}</span>
+                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $item['price'] }}</h2>
                 <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                   <div class="d-flex align-items-center">
                     <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/3030/3030336.png">
-                    <h3 class="ml-2">3 kamar tidur</h3>
+                    <h3 class="ml-2">{{ $item['bedRoom'] }} kamar tidur</h3>
                   </div>
                   <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/638/638137.png" alt="">
-                  <span class="d-flex" style="margin-left: 0.5rem">3 kamar mandi</span>
+                  <span class="d-flex" style="margin-left: 0.5rem">{{ $item['bathRoom'] }} kamar mandi</span>
                   <a href="#" class="btn d-flex btn-success" style="border-radius: 0%">Jual</a>
                 </div>
                 <div class="list-team d-flex align-items-center mt-2 border-top">
@@ -143,7 +132,7 @@
               </div>
             </div>
           </div>        
-          <?php }?>
+          @endforeach
         </div>
       </div>
     </div>
@@ -232,7 +221,7 @@
       <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
         <div class="block-18 py-5 mb-4">
           <div class="text text-border d-flex align-items-center">
-            <strong class="number" data-number="1000">0</strong>
+            <strong class="number" data-number="{{ $count['user'] }}">0</strong>
             <span>Total <br>Pengguna</span>
           </div>
         </div>
@@ -240,7 +229,7 @@
       <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
         <div class="block-18 py-5 mb-4">
           <div class="text text-border d-flex align-items-center">
-            <strong class="number" data-number="2500">0</strong>
+            <strong class="number" data-number="{{ $count['property'] }}">0</strong>
             <span>Total <br>Properti</span>
           </div>
         </div>
@@ -248,7 +237,7 @@
       <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
         <div class="block-18 py-5 mb-4">
           <div class="text text-border d-flex align-items-center">
-            <strong class="number" data-number="500">0</strong>
+            <strong class="number" data-number="{{ $count['propertySold'] }}">0</strong>
             <span>Properti <br>Terjual</span>
           </div>
         </div>
