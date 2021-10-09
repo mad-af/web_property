@@ -47,7 +47,7 @@ Find Home
                                 @endif
                             @endforeach
                         </select>
-                        <button type="submit" onclick="showOnClick()" class="btn btn-success" style="width: 100%">Find Home</button>
+                        <button type="submit" onclick="showOnClick()" class="btn btn-success w-100">Find Home</button>
                     </form>
                 </div>
             </div>

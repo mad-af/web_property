@@ -15,8 +15,13 @@ class PropertyController extends Controller {
     // VIEW
     public function listPropertyView () {
         $query = Property::get()->toArray();
-        $data = [ 'data' => $query ];
 
+        foreach ($query as $key => $item) {
+            $query[$key]['bedRoom'] = Commons::BED_ROOM[$item['bedRoom']];
+            $query[$key]['bathRoom'] = Commons::BATH_ROOM[$item['bathRoom']];
+        }
+
+        $data = [ 'data' => $query ];
         if (Auth::user()->role == 1) {
             return view('userPage.property', $data);
         }
@@ -39,24 +44,41 @@ class PropertyController extends Controller {
 
     public function detailPropertyView ($propertyId, Request $req) {
         $edit = $req->validate(['edit' => ['nullable']]);
-        $subData = Sub::get()->groupBy('attribute')->toArray();
+
+        $data = []; $view = "";
         $query = Property::where('id', $propertyId)->first();
-        $data = [ 
-            'data' => $query,
-            "homeStatus" => Commons::HOME_STATUS,
-            "homeCategory" => Commons::HOME_CATEGORY,
-            "bedRoom" => Commons::BED_ROOM,
-            "bathRoom" => Commons::BATH_ROOM,
-            "parkingLot" => Commons::PARKING_LOT,
-            "heating" => Commons::HEATING,
-        ];
-        $data = array_merge($data, $subData);
+
+        if (Auth::user()->role == 1) {
+            $query['bedRoom'] = Commons::BED_ROOM[$query['bedRoom']];
+            $query['bathRoom'] = Commons::BATH_ROOM[$query['bathRoom']];
+            $query['parkingLot'] = Commons::PARKING_LOT[$query['parkingLot']];
+            $query['heating'] = Commons::HEATING[$query['heating']];
+
+            $data = [ 'data' => $query ];
+            $view = 'userPage.propertyDetail';
+        }
+        else {
+            $subData = Sub::get()->groupBy('attribute')->toArray();
+            $data = [ 
+                'data' => $query,
+                "homeStatus" => Commons::HOME_STATUS,
+                "homeCategory" => Commons::HOME_CATEGORY,
+                "bedRoom" => Commons::BED_ROOM,
+                "bathRoom" => Commons::BATH_ROOM,
+                "parkingLot" => Commons::PARKING_LOT,
+                "heating" => Commons::HEATING,
+            ];
+            $data = array_merge($data, $subData);
+
+            $view = 'adminPage.propertyDetail';
+        }
+
 
         if ($edit) {
             return view('adminPage.propertyEdit', $data);
         }
 
-        return view('adminPage.propertyDetail', $data);
+        return view($view, $data);
     }
 
     

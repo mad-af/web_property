@@ -37,10 +37,8 @@ Route::get('/about-us', function () {
 
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/property', [PropertyController::class, 'listPropertyView']);
-    Route::get('/user/property/{propertyId}', [PropertyController::class, 'listPropertyView']);
-    Route::get('/user/find-home', function () {   
-        return view('userPage.findHome');
-    });
+    Route::get('/user/property/{propertyId}', [PropertyController::class, 'detailPropertyView']);
+    Route::get('/user/find-home', [FindHomeController::class, 'findHomeView']);
     Route::get('/user/cart', function () {   
         return view('userPage.cart');
     });
