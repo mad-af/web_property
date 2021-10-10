@@ -67,7 +67,7 @@
         <li class="nav-item {{ Request::is('user/find-home') || Request::is('user/find-home/*') ? 'active' : ''}}"><a href="{{url('user/find-home')}}" class="nav-link">Find Home</a></li>
         
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle">Hello, Mochamad</a>
+          <a class="nav-link dropdown-toggle">Hello, {{ Auth::user()->firstName }}</a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <li><a class="dropdown-item" href="{{url('user/cart')}}">
               <em class="fa fa-shopping-cart" aria-hidden="true"></em> &ensp; Keranjang</a>
