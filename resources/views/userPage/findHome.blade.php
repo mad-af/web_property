@@ -68,10 +68,12 @@ Find Home
                                 <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ session('property-find-home')['price'] }}</h2>
                                 <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                                 <div class="d-flex align-items-center">
-                                    <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/3030/3030336.png" alt="icon">
+                                    <i class="fa fa-bed fa-lg" aria-hidden="true"></i>
+                                    {{-- <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/3030/3030336.png" alt="icon"> --}}
                                     <h3 class="ml-2">{{ session('property-find-home')['bedRoom'] }} kamar tidur</h3>
                                 </div>
-                                <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/638/638137.png" alt="icon">
+                                <i class="fa fa-bath fa-lg" aria-hidden="true"></i>
+                                {{-- <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/638/638137.png" alt="icon"> --}}
                                 <span class="d-flex" style="margin-left: 0.5rem">{{ session('property-find-home')['bathRoom'] }} kamar mandi</span>
                                 <a href="#" class="btn d-flex btn-success" style="border-radius: 0%">Jual</a>
                                 </div>

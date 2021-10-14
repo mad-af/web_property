@@ -1,0 +1,17 @@
+.spaces{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.item-image{
+    width: 23rem;
+    height: 18rem;
+}
+
+@media (min-width: 1500px) {
+    .container {
+        width: 1400px;
+        left: 0;
+        right: 0;
+    }
+}

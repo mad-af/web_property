@@ -20,6 +20,8 @@
   
   <link rel="stylesheet" href="{{asset('css/flaticon.css')}}">
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
+  
+  <link rel="stylesheet" href="{{asset('css/adjustments.css')}}">
   <style>
     .register-notif{
       opacity: 0%;
