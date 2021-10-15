@@ -1,4 +1,5 @@
 @extends('userPage/_subLayout')
+@inject('method', 'App\Helper\Method')
 
 @section('title')
 Properti
@@ -8,6 +9,13 @@ Properti
 
 <section class="ftco-section" id="property">
   <div class="container">
+    
+  @if($errors->any())
+  <div class="alert alert-danger" role="alert">
+    <strong>Gagal</strong> - {{ $errors->first() }}
+  </div>
+  @endif
+
     <div class="d-xl-flex">
       <div class="col">
         <img src="{{ asset($data['image']) }}" class="rounded img-fluid zoom-in" alt="image_property" data-toggle="modal" data-target="#exampleModal">
@@ -20,7 +28,7 @@ Properti
           <span class="lead">{{ $data['address'] }}</span>
         </div>
         <div class="mt-3">
-          <h1 >Rp. {{ $data['price'] }}</h1>
+          <h1 >Rp. {{ $method::rupiah($data['price']) }}</h1>
         </div>
         <div>
           <div class="mt-1 d-flex flex-wrap">
@@ -51,7 +59,10 @@ Properti
           {{ $data['description'] }}
         </div>
         <div class="mt-5">
-          <button class="btn btn-success w-100">Beli</button>
+          <form action="{{url('/user/order/'.$data['id'])}}" method="POST">
+            @csrf
+            <button class="btn btn-success w-100">Beli</button>
+          </form>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\FindHomeController;
 use App\Http\Controllers\CommonsController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,9 +40,8 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/property', [PropertyController::class, 'listPropertyView']);
     Route::get('/user/property/{propertyId}', [PropertyController::class, 'detailPropertyView']);
     Route::get('/user/find-home', [FindHomeController::class, 'findHomeView']);
-    Route::get('/user/cart', function () {   
-        return view('userPage.cart');
-    });
+    Route::get('/user/cart', [orderController::class, 'cartView']);
+    Route::post('/user/order/{propertyId}', [orderController::class, 'addOrderProperty']);
 });
 
 // admin-page

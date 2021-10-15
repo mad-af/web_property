@@ -1,4 +1,5 @@
 @extends('userPage/_subLayout')
+@inject('method', 'App\Helper\Method')
 
 @section('title')
 Properti
@@ -22,7 +23,7 @@ Properti
                             <strong>{{ $item['title'] }}</strong>
                         </h3>
                         <span class="location" style="font-size: 90%">{{ $item['address'] }}</span>
-                        <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $item['price'] }}</h2>
+                        <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat($item['price']) }}</h2>
                         <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                             <div class="d-flex align-items-center">
                                 <i class="fa fa-bed" aria-hidden="true"></i>
@@ -55,7 +56,7 @@ Properti
                         <strong>{{ $item['title'] }}</strong>
                     </h3>
                     <span class="location" style="font-size: 90%">{{ $item['address'] }}</span>
-                    <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $item['price'] }}</h2>
+                    <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat($item['price']) }}</h2>
                     <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                         <div class="d-flex align-items-center">
                             <i class="fa fa-bed" aria-hidden="true"></i>

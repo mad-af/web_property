@@ -14,7 +14,7 @@ use File;
 class PropertyController extends Controller {
     // VIEW
     public function listPropertyView () {
-        $query = Property::get()->toArray();
+        $query = Property::orderBy('id', 'DESC')->get()->toArray();
 
         foreach ($query as $key => $item) {
             $query[$key]['bedRoom'] = Commons::BED_ROOM[$item['bedRoom']];
@@ -84,11 +84,10 @@ class PropertyController extends Controller {
     
     // ACTION
     public function addPropertyAction (Request $req) {
-        try {
-            $payload = $req->validate([
+        $payload = $req->validate([
                 'title' => ['required', 'unique:properties'],
                 'price' => ['required', 'integer'],
-                'address' => ['required', 'max:40'],
+                'address' => ['required', 'max:50'],
                 'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
                 'status' => ['required', 'integer'],
                 'category' => ['required', 'integer'],
@@ -102,6 +101,10 @@ class PropertyController extends Controller {
                 'subSalaryId' => ['required', 'integer'],
                 'subHomeFurnitureId' => ['required', 'integer'],
                 'subFamilyMemberId' => ['required', 'integer']
+            ],[
+                'address.max' => 'Alamat harus kurang dari 50 karakter',
+                'title.unique' => 'Judul telah digunakan!',
+                'image.max' => 'Gambar harus kurang dari 2mb'
             ]);
 
             $path = 'images/property/';
@@ -109,11 +112,12 @@ class PropertyController extends Controller {
             $payload['image']->move(public_path($path), $imageName);
             $payload['image'] = $path.$imageName;
 
+        try {
             Property::create($payload);
         } catch (\Throwable $th) {
             return back()->withErrors('Anda gagal membuat properti.');
         }
-        return redirect('/admin/property')->withSuccess('Properti telah dibuat.');
+        return redirect('/admin/property')->withSuccess('Properti berhasil dibuat.');
     }
 
     public function deletePropertyAction ($propertyId) {

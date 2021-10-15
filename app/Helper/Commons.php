@@ -13,4 +13,9 @@ class Commons {
         2 => 'Admin',
         3 => 'Super Admin'
     ];
+    const ORDER_STATUS = [
+        1 => 'Submission',
+        2 => 'Proccess',
+        3 => 'Done'
+    ];
 }
