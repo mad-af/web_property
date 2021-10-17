@@ -24,7 +24,9 @@ class OrderController extends Controller {
         $data = [
             'cart' => $cart,
             'submission' => $submission,
-            'history' => $history
+            'history' => $history,
+            'bank' => Commons::BANK_LOAN,
+            'paymentTimes' => Commons::PAYMENT_TIMES
         ];
         return view('userPage.cart', $data);
     }
@@ -49,5 +51,41 @@ class OrderController extends Controller {
             return back()->withErrors('Anda gagal membuat order.');
         }
         return redirect('/user/cart')->withSuccess('Order berhasil dibuat.');
+    }
+
+    public function submissionOrderProperty ($orderId, Request $req) {
+        $payload = $req->validate([
+            'paymentMethod' => ['required', 'integer'],
+            'prepayment' => ['nullable', 'integer'],
+            'prepaymentMin' => ['nullable', 'integer'],
+            'bank' => ['nullable', 'integer'],
+            'paymentLoan' => ['nullable', 'integer'],
+            'paymentLoanMin' => ['nullable', 'integer'],
+            'paymentLoanMax' => ['nullable', 'integer'],
+            'paymentTimes' => ['nullable', 'integer'],
+        ]);
+
+        $send = [
+            'submissionCreated' => $orderId,
+        ];
+        return back()->withSuccess('Pengajuan berhasil dibuat.')->with($send);
+
+        // if ((!empty($payload['prepayment']) && !empty($payload['prepaymentMin']) && $payload['prepayment'] < $payload['prepaymentMin']) ||
+        //     (!empty($payload['paymentLoan']) && ($payload['paymentLoan'] < $payload['paymentLoanMin'] || $payload['paymentLoan'] > $payload['paymentLoanMax']))) {
+        //     return back()->withErrors('Pengajuan harus sesaui dengan ketentuan.');
+        // }
+
+        // $payload['status'] = 2;
+        // unset($payload['prepaymentMin']);
+        // unset($payload['paymentLoanMin']);
+        // unset($payload['paymentLoanMax']);
+
+        // try {
+        //     Order::where('id', $orderId)->update($payload);
+        // } catch (\Throwable $th) {
+        //     dd($th);
+        //     return back()->withErrors('Anda gagal mengajukan pembelian.');
+        // }
+        // return back()->withSuccess('Pengajuan berhasil dibuat.');
     }
 }

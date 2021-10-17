@@ -85,27 +85,27 @@ class PropertyController extends Controller {
     // ACTION
     public function addPropertyAction (Request $req) {
         $payload = $req->validate([
-                'title' => ['required', 'unique:properties'],
-                'price' => ['required', 'integer'],
-                'address' => ['required', 'max:50'],
-                'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-                'status' => ['required', 'integer'],
-                'category' => ['required', 'integer'],
-                'bedRoom' => ['required', 'integer'],
-                'bathRoom' => ['required', 'integer'],
-                'parkingLot' => ['required', 'integer'],
-                'heating' => ['required', 'integer'],
-                'length' => ['required', 'integer'],
-                'width' => ['required', 'integer'],
-                'description' => ['required'],
-                'subSalaryId' => ['required', 'integer'],
-                'subHomeFurnitureId' => ['required', 'integer'],
-                'subFamilyMemberId' => ['required', 'integer']
-            ],[
-                'address.max' => 'Alamat harus kurang dari 50 karakter',
-                'title.unique' => 'Judul telah digunakan!',
-                'image.max' => 'Gambar harus kurang dari 2mb'
-            ]);
+            'title' => ['required', 'unique:properties'],
+            'price' => ['required', 'integer'],
+            'address' => ['required', 'max:50'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'status' => ['required', 'integer'],
+            'category' => ['required', 'integer'],
+            'bedRoom' => ['required', 'integer'],
+            'bathRoom' => ['required', 'integer'],
+            'parkingLot' => ['required', 'integer'],
+            'heating' => ['required', 'integer'],
+            'length' => ['required', 'integer'],
+            'width' => ['required', 'integer'],
+            'description' => ['required'],
+            'subSalaryId' => ['required', 'integer'],
+            'subHomeFurnitureId' => ['required', 'integer'],
+            'subFamilyMemberId' => ['required', 'integer']
+        ],[
+            'address.max' => 'Alamat harus kurang dari 50 karakter',
+            'title.unique' => 'Judul telah digunakan!',
+            'image.max' => 'Gambar harus kurang dari 2mb'
+        ]);
 
             $path = 'images/property/';
             $imageName = sha1(time()).'.'.$payload['image']->extension();

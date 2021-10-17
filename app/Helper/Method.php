@@ -28,8 +28,19 @@ class  Method {
     return "$format_angka $simbol";
   }
 
-  public static function rupiah($angka){
-    return number_format($angka,2,',','.');
-   
+  public static function rupiah($number){
+    return number_format($number,2,',','.');
+  }
+
+  public static function prepayment($price){
+    return $price*30/100;
+  }
+
+  public static function loanPaymentMin($price){
+    return $price*50/100;
+  }
+
+  public static function loanPaymentMax($price){
+    return $price*75/100;
   }
 }
