@@ -23,13 +23,22 @@ Keranjang
     <div>
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          @if (empty(session('submissionCreated')))
           <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Keranjang</a>
           <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Pengajuan</a>
+          @else
+          <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="false">Keranjang</a>
+          <a class="nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Pengajuan</a>
+          @endif
           <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Riwayat</a>
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
+        @if (empty(session('submissionCreated')))
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        @else
+        <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        @endif
           @foreach ($cart as $item)
           <div class="card mt-2">
             <div class="card-body d-flex justify-content-between">
@@ -52,7 +61,11 @@ Keranjang
           </div>
           @endforeach
         </div>
+        @if (empty(session('submissionCreated')))
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        @else
+        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        @endif
           @foreach ($submission as $item)
             <div class="card mt-2">
               <div class="card-body d-flex justify-content-between">
@@ -69,7 +82,7 @@ Keranjang
                   </div>
                 </div>
                 <div class="align-self-center">
-                  <button class="btn btn-success">Lihat Detail</button>
+                  <button class="btn btn-success" id="{{ 'submission'.$item['id'] }}" data-toggle="modal" data-target="{{ '#submissionModal'.$item['id'] }}">Lihat Detail</button>
                 </div>
               </div>
             </div>
@@ -193,6 +206,64 @@ Keranjang
 </div>
 @endforeach
 
+@foreach ($submission as $item)
+<div class="modal fade" id="{{ 'submissionModal'.$item['id'] }}" tabindex="-1" aria-labelledby="{{ 'submissionModalLabel'.$item['id'] }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="submissionModalLabel">Pembelian Properti</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        @if (!empty($item['proofImage']))
+          <p>
+            Terimakasih telah mempercayai kami, silahkan tunggu selama 3x24 jam hari kerja. akan segera kami proses
+          </p>
+          <p>
+            Apabila status pengajuan belum berganti dalam kurun waktu yang telah di tentukan silahkan menghubungi pihak kami di (314)21121.
+          </p>
+        @elseif ($item['paymentMethod'] == 1)
+        <p>
+          Silahkan transfer Uang Tanda Jadi (UTJ) sebesar Rp.{{ $method::rupiah($item['prepayment']) }} ke nomor rekening 8630082634 BCA atas nama Lauw Evie Ludy, Hubungi pihak XMPI untuk konfirmasi.
+        </p>
+        <p>
+          Apa bila telah melakukan transaksi silahkan kirimkan foto bukti transfer.
+        </p>
+        <form action="{{ url('/user/order/submission/'.$item['id']) }}" method="post" enctype="multipart/form-data">
+          @method('PUT')
+          @csrf
+          <div class="custom-file">
+            <input type="file" name="proofImage" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01">Masukkan Gambar Bukti</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-user btn-block mt-2">
+            Upload Gambar Bukti
+          </button>
+        </form>
+        @elseif ($item['paymentMethod'] == 2)
+        <p>
+          Silahkan unggah foto KTP anda agar pengajuan Kredit kepemilikan rumah (KPR) anda, dapat segera kami proses.
+        </p>
+        <form action="{{ url('/user/order/submission/'.$item['id']) }}" method="post" enctype="multipart/form-data">
+          @method('PUT')
+          @csrf
+          <div class="custom-file">
+            <input type="file" name="proofImage" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01">Masukkan Gambar Bukti</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-user btn-block mt-2">
+            Upload Gambar Bukti
+          </button>
+        </form>
+        @endif
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
+
 @endsection
 
 <style>
@@ -206,3 +277,11 @@ Keranjang
     width: 60% !important;
   }
 </style>
+
+@if (!empty(session('submissionCreated')))
+<script>
+  window.onload = function() {
+    document.getElementById("{{ 'submission'.$submission[0]['id'] }}").click();
+  }
+</script>
+@endif

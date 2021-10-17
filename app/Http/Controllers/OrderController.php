@@ -55,7 +55,7 @@ class OrderController extends Controller {
 
     public function submissionOrderProperty ($orderId, Request $req) {
         $payload = $req->validate([
-            'paymentMethod' => ['required', 'integer'],
+            'paymentMethod' => ['nullable', 'integer'],
             'prepayment' => ['nullable', 'integer'],
             'prepaymentMin' => ['nullable', 'integer'],
             'bank' => ['nullable', 'integer'],
@@ -63,29 +63,35 @@ class OrderController extends Controller {
             'paymentLoanMin' => ['nullable', 'integer'],
             'paymentLoanMax' => ['nullable', 'integer'],
             'paymentTimes' => ['nullable', 'integer'],
+            'proofImage' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']
         ]);
 
-        $send = [
-            'submissionCreated' => $orderId,
-        ];
-        return back()->withSuccess('Pengajuan berhasil dibuat.')->with($send);
+        if ((!empty($payload['prepayment']) && !empty($payload['prepaymentMin']) && $payload['prepayment'] < $payload['prepaymentMin']) ||
+            (!empty($payload['paymentLoan']) && ($payload['paymentLoan'] < $payload['paymentLoanMin'] || $payload['paymentLoan'] > $payload['paymentLoanMax']))) {
+            return back()->withErrors('Pengajuan harus sesaui dengan ketentuan.');
+        }
 
-        // if ((!empty($payload['prepayment']) && !empty($payload['prepaymentMin']) && $payload['prepayment'] < $payload['prepaymentMin']) ||
-        //     (!empty($payload['paymentLoan']) && ($payload['paymentLoan'] < $payload['paymentLoanMin'] || $payload['paymentLoan'] > $payload['paymentLoanMax']))) {
-        //     return back()->withErrors('Pengajuan harus sesaui dengan ketentuan.');
-        // }
+        $massage = 'Pengajuan berhasil dibuat.';
+        if (empty($payload['proofImage'])) { 
+            $payload['status'] = 2;
+        }
+        else {
+            $path = 'images/proof/';
+            $imageName = sha1(time()).'.'.$payload['proofImage']->extension();
+            $payload['proofImage']->move(public_path($path), $imageName);
+            $payload['proofImage'] = $path.$imageName;
+            $massage = 'Pengajuan berhasil diperbarui.';
+        }
+        unset($payload['prepaymentMin']);
+        unset($payload['paymentLoanMin']);
+        unset($payload['paymentLoanMax']);
 
-        // $payload['status'] = 2;
-        // unset($payload['prepaymentMin']);
-        // unset($payload['paymentLoanMin']);
-        // unset($payload['paymentLoanMax']);
-
-        // try {
-        //     Order::where('id', $orderId)->update($payload);
-        // } catch (\Throwable $th) {
-        //     dd($th);
-        //     return back()->withErrors('Anda gagal mengajukan pembelian.');
-        // }
-        // return back()->withSuccess('Pengajuan berhasil dibuat.');
+        try {
+            Order::where('id', $orderId)->update($payload);
+        } catch (\Throwable $th) {
+            dd($th);
+            return back()->withErrors('Anda gagal mengajukan pembelian.');
+        }
+        return back()->withSuccess($massage)->with('submissionCreated', $orderId);;
     }
 }
