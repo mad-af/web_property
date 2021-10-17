@@ -55,7 +55,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/property/{propertyId}/delete', [PropertyController::class, 'deletePropertyAction']);
     Route::get('/admin/user', [AuthController::class, 'listUserView']);
     Route::get('/admin/user/add', [AuthController::class, 'addUserAdminView']);
-    Route::get('/admin/order', function () {
-        return view('adminPage.order');
-    });
+    Route::get('/admin/order', [orderController::class, 'cartView']);
+    Route::put('/admin/order/submission/{orderId}', [orderController::class, 'submissionOrderAdmin']);
 });

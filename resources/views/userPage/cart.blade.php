@@ -105,7 +105,12 @@ Keranjang
                   </div>
                 </div>
                 <div class="align-self-center">
-                  <button class="btn btn-success">Ajukan Pembelian</button>
+                  @if ($item['success'])
+                  <span class="badge badge-success mr-4">DITERIMA</span>
+                  @elseif (!$item['success'])
+                  <span class="badge badge-danger mr-4">DITOLAK</span>
+                  @endif
+                  <button class="btn btn-success" data-toggle="modal" data-target="{{ '#historyModal'.$item['id'] }}">Lihat Detail</button>
                 </div>
               </div>
             </div>
@@ -257,6 +262,32 @@ Keranjang
             Upload Gambar Bukti
           </button>
         </form>
+        @endif
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
+
+@foreach ($history as $item)
+<div class="modal fade" id="{{ 'historyModal'.$item['id'] }}" tabindex="-1" aria-labelledby="{{ 'historyModalLabel'.$item['id'] }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="historyModalLabel">Pembelian Properti</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        @if ($item['success'])
+        <p>
+          Selamat pengajuan anda telah kami terima, dalam 3x24 hari kerja kami akan segera menghubungi anda untuk memenuhi syarat-syarat yang berlaku terimakasih.
+        </p>
+        @else
+        <p>
+          {{ $item['description'] }}
+        </p>
         @endif
       </div>
     </div>

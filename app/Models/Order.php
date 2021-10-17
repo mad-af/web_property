@@ -16,4 +16,7 @@ class Order extends Model
     public function property() {
         return $this->belongsTo(Property::class, 'propertyId');
     }
+    public function user() {
+        return $this->belongsTo(User::class, 'userId');
+    }
 }

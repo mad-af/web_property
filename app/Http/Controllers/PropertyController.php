@@ -14,18 +14,23 @@ use File;
 class PropertyController extends Controller {
     // VIEW
     public function listPropertyView () {
-        $query = Property::orderBy('id', 'DESC')->get()->toArray();
-
+        $query = []; $blade = "";
+        if (Auth::user()->role == 1) {
+            $query = Property::where('sold', '!=', true )->orderBy('id', 'DESC')->get()->toArray();
+            $blade = 'userPage.property';
+        }
+        else {
+            $query = Property::orderBy('id', 'DESC')->get()->toArray();
+            $blade = 'adminPage.property';
+        }
+        
         foreach ($query as $key => $item) {
             $query[$key]['bedRoom'] = Commons::BED_ROOM[$item['bedRoom']];
             $query[$key]['bathRoom'] = Commons::BATH_ROOM[$item['bathRoom']];
         }
 
         $data = [ 'data' => $query ];
-        if (Auth::user()->role == 1) {
-            return view('userPage.property', $data);
-        }
-        return view('adminPage.property', $data);
+        return view($blade, $data);
     }
 
     public function addPropertyView () {
