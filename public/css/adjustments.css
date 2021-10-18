@@ -1,14 +1,22 @@
 .spaces{
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
 .item-image{
-    width: 23rem;
-    height: 18rem;
+    width: 18rem;
+    height: 12rem;
 }
 
-@media (min-width: 1500px) {
+@media (max-width: 1900px) {
+    .container {
+        width: 1700px;
+        left: 0;
+        right: 0;
+    }
+}
+
+@media (max-width: 1500px) {
     .container {
         width: 1400px;
         left: 0;
