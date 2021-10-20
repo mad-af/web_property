@@ -31,7 +31,7 @@ Properti
                             </div>
                             <i class="fa fa-bath" aria-hidden="true"></i>
                             <span class="d-flex" style="margin-left: 0.5rem">{{ $item['bathRoom'] }} kamar mandi</span>
-                            <a href="#" class="btn d-flex btn-success" style="border-radius: 0%">Jual</a>
+                            <a href="#" class="btn d-flex btn-success baddge" style="border-radius: 0%, cursor: context-menu !important">Jual</a>
                         </div>
                         <div class="list-team d-flex align-items-center mt-2 border-top">
                             <a href="{{url('/user/property/'.$item['id'])}}" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>

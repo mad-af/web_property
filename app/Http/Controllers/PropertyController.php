@@ -125,6 +125,45 @@ class PropertyController extends Controller {
         return redirect('/admin/property')->withSuccess('Properti berhasil dibuat.');
     }
 
+    public function editPropertyAction ($propertyId, Request $req) {
+        $payload = $req->validate([
+        'title' => ['nullable', /*'unique:properties'*/],
+            'price' => ['nullable', 'integer'],
+            'address' => ['nullable', 'max:50'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'status' => ['nullable', 'integer'],
+            'category' => ['nullable', 'integer'],
+            'bedRoom' => ['nullable', 'integer'],
+            'bathRoom' => ['nullable', 'integer'],
+            'parkingLot' => ['nullable', 'integer'],
+            'heating' => ['nullable', 'integer'],
+            'length' => ['nullable', 'integer'],
+            'width' => ['nullable', 'integer'],
+            'description' => ['nullable'],
+            'subSalaryId' => ['nullable', 'integer'],
+            'subHomeFurnitureId' => ['nullable', 'integer'],
+            'subFamilyMemberId' => ['nullable', 'integer']
+        ],[
+            'address.max' => 'Alamat harus kurang dari 50 karakter',
+            // 'title.unique' => 'Judul telah digunakan!',
+            'image.max' => 'Gambar harus kurang dari 2mb'
+        ]);
+
+        if (!empty($payload['image'])) {
+            $path = 'images/property/';
+            $imageName = sha1(time()).'.'.$payload['image']->extension();
+            $payload['image']->move(public_path($path), $imageName);
+            $payload['image'] = $path.$imageName;
+        }
+
+        try {
+            Property::where('id', $propertyId)->update($payload);
+        } catch (\Throwable $th) {
+            return back()->withErrors('Anda gagal membuat properti.');
+        }
+        return redirect('/admin/property')->withSuccess('Properti berhasil dibuat.');
+    }
+
     public function deletePropertyAction ($propertyId) {
         try {
             $property = Property::where('id', $propertyId);

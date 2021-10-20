@@ -51,14 +51,14 @@
           @endif
         </td>
         <td class="align-middle" >
-          @if (empty($item['proofImage']))
-          <a>
-            <em class="fas fa-chevron-right fa-lg"></em>
-          </a></span>
-          @else
+          @if (!empty($item['proofImage']) || $item['paymentMethod'] == 1)
           <a href="" data-toggle="modal" data-target="{{ '#exampleModal'.$item['id'] }}">
             <em class="fas fa-chevron-right fa-lg"></em>
           </a>
+          @else
+          <a>
+            <em class="fas fa-chevron-right fa-lg"></em>
+          </a></span>
           @endif
         </td>
       </tr>
@@ -79,7 +79,11 @@
         <div class="modal-body">
           <div class="d-flex">
             <div class="w-40 align-self-center">
+              @if ($item['paymentMethod'] == 1)
+              <img src="{{asset($item['property']['image'])}}" class="img-fluid" alt="image">
+              @else
               <img src="{{asset($item['proofImage'])}}" class="img-fluid" alt="image">
+              @endif
             </div>
             <div class="ml-5 w-60">
               <h5 class="text-success font-weight-bold">

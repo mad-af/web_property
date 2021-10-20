@@ -33,7 +33,7 @@ class  Method {
   }
 
   public static function prepayment($price){
-    return $price*30/100;
+    return 50000000;
   }
 
   public static function loanPaymentMin($price){

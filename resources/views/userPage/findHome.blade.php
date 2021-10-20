@@ -1,4 +1,5 @@
 @extends('userPage/_subLayout')
+@inject('method', 'App\Helper\Method')
 
 @section('title')
 Find Home
@@ -65,7 +66,7 @@ Find Home
                                 </strong>
                                 </h3>
                                 <span class="location" style="font-size: 90%">{{ session('property-find-home')['address'] }}</span>
-                                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ session('property-find-home')['price'] }}</h2>
+                                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat(session('property-find-home')['price']) }}</h2>
                                 <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                                 <div class="d-flex align-items-center">
                                     <i class="fa fa-bed fa-lg" aria-hidden="true"></i>
@@ -75,7 +76,7 @@ Find Home
                                 <i class="fa fa-bath fa-lg" aria-hidden="true"></i>
                                 {{-- <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/638/638137.png" alt="icon"> --}}
                                 <span class="d-flex" style="margin-left: 0.5rem">{{ session('property-find-home')['bathRoom'] }} kamar mandi</span>
-                                <a href="#" class="btn d-flex btn-success" style="border-radius: 0%">Jual</a>
+                                <a href="#" class="btn d-flex btn-success baddge" style="border-radius: 0%, cursor: context-menu !important">Jual</a>
                                 </div>
                                 <div class="list-team d-flex align-items-center mt-2 border-top">
                                 <a href="{{url('/user/property/'.session('property-find-home')['id'])}}" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>

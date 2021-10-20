@@ -171,21 +171,17 @@ Keranjang
                 </div>
                 <div class="tab-pane fade" id="{{ 'nav-loan'.$item['id'] }}" role="tabpanel" aria-labelledby="{{ 'nav-loan'.$item['id'] }}-tab">
                   <p class="mt-2 mb-2">
-                    Kredit kepemilikan rumah (KPR) memiliki beberapa persyaratan sebagai berikut.
-                  </p>
-                  <p>
-                    min. pengajuan dana: Rp.{{ $method::rupiah($method::loanPaymentMin($item['property']['price'])) }}<br>
-                    max. pengajuan dana: Rp.{{ $method::rupiah($method::loanPaymentMax($item['property']['price'])) }}
+                    Kredit kepemilikan rumah (KPR) mengisi beberapa persyaratan sebagai berikut.
                   </p>
                   <form action="{{ url('/user/order/submission/'.$item['id']) }}" method="POST">
                     @method('PUT')
                     @csrf
                     <input type="hidden" class="form-control" name="paymentMethod" value="2">
                     <input type="hidden" class="form-control" name="paymentLoanMin" value="{{ $method::loanPaymentMin($item['property']['price']) }}">
-                    <input type="hidden" class="form-control" name="paymentLoanMax" value="{{ $method::loanPaymentMax($item['property']['price']) }}">
-                    <input type="number" class="form-control mb-2" name="paymentLoan" placeholder="Pengajuan Dana" required>
+                    <input type="hidden" class="form-control" name="paymentLoanMax" value="{{ $item['property']['price'] }}">
+                    <input type="number" class="form-control mb-2" name="paymentLoan" placeholder="Masukkan nilai KPR" required>
                     <select class="form-control mb-2" name="paymentTimes" required>
-                      <option value="" selected disabled hidden>Pilih Tenggang Waktu Pelunasan</option>
+                      <option value="" selected disabled hidden>Pilih Waktu</option>
                       @for ($i = 1; $i < count($paymentTimes); $i++)
                       <option value="{{ $i }}">{{ $paymentTimes[$i] }}</option>
                       @endfor
@@ -222,31 +218,13 @@ Keranjang
         </button>
       </div>
       <div class="modal-body">
-        @if (!empty($item['proofImage']))
+        @if (!empty($item['proofImage']) || $item['paymentMethod'] == 1)
           <p>
             Terimakasih telah mempercayai kami, silahkan tunggu selama 3x24 jam hari kerja. akan segera kami proses
           </p>
           <p>
             Apabila status pengajuan belum berganti dalam kurun waktu yang telah di tentukan silahkan menghubungi pihak kami di (314)21121.
           </p>
-        @elseif ($item['paymentMethod'] == 1)
-        <p>
-          Silahkan transfer Uang Tanda Jadi (UTJ) sebesar Rp.{{ $method::rupiah($item['prepayment']) }} ke nomor rekening 8630082634 BCA atas nama Lauw Evie Ludy, Hubungi pihak XMPI untuk konfirmasi.
-        </p>
-        <p>
-          Apa bila telah melakukan transaksi silahkan kirimkan foto bukti transfer.
-        </p>
-        <form action="{{ url('/user/order/submission/'.$item['id']) }}" method="post" enctype="multipart/form-data">
-          @method('PUT')
-          @csrf
-          <div class="custom-file">
-            <input type="file" name="proofImage" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile01">Masukkan Gambar Bukti</label>
-          </div>
-          <button type="submit" class="btn btn-primary btn-user btn-block mt-2">
-            Upload Gambar Bukti
-          </button>
-        </form>
         @elseif ($item['paymentMethod'] == 2)
         <p>
           Silahkan unggah foto KTP anda agar pengajuan Kredit kepemilikan rumah (KPR) anda, dapat segera kami proses.

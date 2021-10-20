@@ -1,4 +1,5 @@
 @extends('webPage/_layout')
+@inject('method', 'App\Helper\Method')
 
 @section('content')
 
@@ -116,7 +117,7 @@
                   </strong>
                 </h3>
                 <span class="location" style="font-size: 90%">{{ $item['address'] }}</span>
-                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $item['price'] }}</h2>
+                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat($item['price']) }}</h2>
                 <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                   <div class="d-flex align-items-center">
                     <i class="fa fa-bed fa-lg" aria-hidden="true"></i>
@@ -124,7 +125,7 @@
                   </div>
                   <i class="fa fa-bath fa-lg" aria-hidden="true"></i>
                   <span class="d-flex" style="margin-left: 0.5rem">{{ $item['bathRoom'] }} kamar mandi</span>
-                  <a href="#" class="btn d-flex btn-success" style="border-radius: 0%">Jual</a>
+                  <a href="#" class="btn d-flex btn-success baddge" style="border-radius: 0%, cursor: context-menu !important">Jual</a>
                 </div>
                 <div class="list-team d-flex align-items-center mt-2 border-top">
                   <a href="#" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>

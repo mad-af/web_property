@@ -23,13 +23,15 @@
         <td>{{ $item['username'] }}</td>
         <td>{{ $item['email'] }}</td>
         <td>
-          @if ($item['role'] == 1)
-            <span>User</span>
-          @elseif ($item['role'] == 2)
-            <span>Admin</span>
-          @else
-            <span>Super Admin</span>
-          @endif
+          <h5>
+            @if ($item['role'] == 1)
+              <span class="badge badge-success">User</span>
+            @elseif ($item['role'] == 2)
+              <span class="badge badge-info">Admin</span>
+            @else
+              <span class="badge badge-warning">Super Admin</span>
+            @endif
+          </h5>
         </td>
       </tr>
       @endforeach
