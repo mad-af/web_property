@@ -102,6 +102,21 @@ class AuthController extends Controller
         return redirect($path)->withSuccess('Akun anda berhasil dibuat');
     }
 
+    public function authForgotPasswordAction(Request $req){
+        // dd($req->email);
+        $user = User::whereEmail($req->email)->first();
+        if ($user == null) {
+            # code...
+            return redirect()->back();
+        }
+        $details = [
+            'title' => 'Password Reset',
+            'body' => 'This is using GGL'
+        ];
+        \Mail::to($user)->send(new \App\Mail\MailSys($details));
+        dd($details);
+    }
+
     public function authLogoutAction (Request $req) {
         Auth::logout();
         $req->session()->invalidate();
