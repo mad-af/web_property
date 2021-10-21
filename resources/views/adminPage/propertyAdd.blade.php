@@ -44,7 +44,7 @@
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label>Alamat</label>
-            <input name="address" type="text" class="form-control" placeholder="Masukan alamat" required>
+            <input name="address" type="text" class="form-control" placeholder="Masukan alamat - min: 50 karakter" required>
           </div>
           <div class="col-md-3 mb-3">
             <label>Status</label>

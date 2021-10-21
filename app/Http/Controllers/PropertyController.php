@@ -14,18 +14,23 @@ use File;
 class PropertyController extends Controller {
     // VIEW
     public function listPropertyView () {
-        $query = Property::get()->toArray();
-
+        $query = []; $blade = "";
+        if (Auth::user()->role == 1) {
+            $query = Property::where('sold', '!=', true )->orderBy('id', 'DESC')->get()->toArray();
+            $blade = 'userPage.property';
+        }
+        else {
+            $query = Property::orderBy('id', 'DESC')->get()->toArray();
+            $blade = 'adminPage.property';
+        }
+        
         foreach ($query as $key => $item) {
             $query[$key]['bedRoom'] = Commons::BED_ROOM[$item['bedRoom']];
             $query[$key]['bathRoom'] = Commons::BATH_ROOM[$item['bathRoom']];
         }
 
         $data = [ 'data' => $query ];
-        if (Auth::user()->role == 1) {
-            return view('userPage.property', $data);
-        }
-        return view('adminPage.property', $data);
+        return view($blade, $data);
     }
 
     public function addPropertyView () {
@@ -84,36 +89,79 @@ class PropertyController extends Controller {
     
     // ACTION
     public function addPropertyAction (Request $req) {
-        try {
-            $payload = $req->validate([
-                'title' => ['required', 'unique:properties'],
-                'price' => ['required', 'integer'],
-                'address' => ['required', 'max:40'],
-                'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-                'status' => ['required', 'integer'],
-                'category' => ['required', 'integer'],
-                'bedRoom' => ['required', 'integer'],
-                'bathRoom' => ['required', 'integer'],
-                'parkingLot' => ['required', 'integer'],
-                'heating' => ['required', 'integer'],
-                'length' => ['required', 'integer'],
-                'width' => ['required', 'integer'],
-                'description' => ['required'],
-                'subSalaryId' => ['required', 'integer'],
-                'subHomeFurnitureId' => ['required', 'integer'],
-                'subFamilyMemberId' => ['required', 'integer']
-            ]);
+        $payload = $req->validate([
+            'title' => ['required', 'unique:properties'],
+            'price' => ['required', 'integer'],
+            'address' => ['required', 'max:50'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'status' => ['required', 'integer'],
+            'category' => ['required', 'integer'],
+            'bedRoom' => ['required', 'integer'],
+            'bathRoom' => ['required', 'integer'],
+            'parkingLot' => ['required', 'integer'],
+            'heating' => ['required', 'integer'],
+            'length' => ['required', 'integer'],
+            'width' => ['required', 'integer'],
+            'description' => ['required'],
+            'subSalaryId' => ['required', 'integer'],
+            'subHomeFurnitureId' => ['required', 'integer'],
+            'subFamilyMemberId' => ['required', 'integer']
+        ],[
+            'address.max' => 'Alamat harus kurang dari 50 karakter',
+            'title.unique' => 'Judul telah digunakan!',
+            'image.max' => 'Gambar harus kurang dari 2mb'
+        ]);
 
             $path = 'images/property/';
             $imageName = sha1(time()).'.'.$payload['image']->extension();
             $payload['image']->move(public_path($path), $imageName);
             $payload['image'] = $path.$imageName;
 
+        try {
             Property::create($payload);
         } catch (\Throwable $th) {
             return back()->withErrors('Anda gagal membuat properti.');
         }
-        return redirect('/admin/property')->withSuccess('Properti telah dibuat.');
+        return redirect('/admin/property')->withSuccess('Properti berhasil dibuat.');
+    }
+
+    public function editPropertyAction ($propertyId, Request $req) {
+        $payload = $req->validate([
+        'title' => ['nullable', /*'unique:properties'*/],
+            'price' => ['nullable', 'integer'],
+            'address' => ['nullable', 'max:50'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'status' => ['nullable', 'integer'],
+            'category' => ['nullable', 'integer'],
+            'bedRoom' => ['nullable', 'integer'],
+            'bathRoom' => ['nullable', 'integer'],
+            'parkingLot' => ['nullable', 'integer'],
+            'heating' => ['nullable', 'integer'],
+            'length' => ['nullable', 'integer'],
+            'width' => ['nullable', 'integer'],
+            'description' => ['nullable'],
+            'subSalaryId' => ['nullable', 'integer'],
+            'subHomeFurnitureId' => ['nullable', 'integer'],
+            'subFamilyMemberId' => ['nullable', 'integer']
+        ],[
+            'address.max' => 'Alamat harus kurang dari 50 karakter',
+            // 'title.unique' => 'Judul telah digunakan!',
+            'image.max' => 'Gambar harus kurang dari 2mb'
+        ]);
+
+        if (!empty($payload['image'])) {
+            $path = 'images/property/';
+            $imageName = sha1(time()).'.'.$payload['image']->extension();
+            $payload['image']->move(public_path($path), $imageName);
+            $payload['image'] = $path.$imageName;
+        }
+
+        try {
+            Property::where('id', $propertyId)->update($payload);
+        } catch (\Throwable $th) {
+            return back()->withErrors('Anda gagal membuat properti.');
+        }
+        return redirect('/admin/property')->withSuccess('Properti berhasil dibuat.');
     }
 
     public function deletePropertyAction ($propertyId) {

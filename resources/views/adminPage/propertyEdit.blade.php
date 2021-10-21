@@ -19,7 +19,7 @@
       </div>
       <div class="card-body">
         <div class="custom-file">
-          <input name="image" type="file" class="custom-file-input" id="customFile" required >
+          <input name="image" type="file" class="custom-file-input" id="customFile" >
           <label class="custom-file-label" for="customFile">Upload foto properti</label>
         </div>
         <img src="{{ asset($data['image']) }}" class="rounded mt-3" height="100em" width="120em" alt="image-property">

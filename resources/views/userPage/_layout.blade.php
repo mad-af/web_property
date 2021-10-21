@@ -75,7 +75,7 @@
               <em class="fa fa-shopping-cart" aria-hidden="true"></em> &ensp; Keranjang</a>
             </li>
             <li>
-              <form action="{{url('/logout')}}" method="POST">
+              <form class="logoutButton" action="{{url('/logout')}}" method="POST">
                 @csrf
                 <button type="submit" class="dropdown-item">
                   <span><em class="fa fa-sign-out" aria-hidden="true"></em> &ensp; Keluar</span>
@@ -160,3 +160,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <script src="{{asset('js/main.js')}}"></script>
 </html>
 @endsection
+
+<style>
+  .logoutButton {
+    margin: 0;
+  }
+</style>

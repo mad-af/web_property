@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\FindHomeController;
 use App\Http\Controllers\CommonsController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +41,9 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/property', [PropertyController::class, 'listPropertyView']);
     Route::get('/user/property/{propertyId}', [PropertyController::class, 'detailPropertyView']);
     Route::get('/user/find-home', [FindHomeController::class, 'findHomeView']);
-    Route::get('/user/cart', function () {   
-        return view('userPage.cart');
-    });
+    Route::get('/user/cart', [orderController::class, 'cartView']);
+    Route::post('/user/order/{propertyId}', [orderController::class, 'addOrderProperty']);
+    Route::put('/user/order/submission/{orderId}', [orderController::class, 'submissionOrderProperty']);
 });
 
 // admin-page
@@ -55,7 +56,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/property/{propertyId}/delete', [PropertyController::class, 'deletePropertyAction']);
     Route::get('/admin/user', [AuthController::class, 'listUserView']);
     Route::get('/admin/user/add', [AuthController::class, 'addUserAdminView']);
-    Route::get('/admin/order', function () {
-        return view('adminPage.order');
-    });
+    Route::get('/admin/order', [orderController::class, 'cartView']);
+    Route::put('/admin/order/submission/{orderId}', [orderController::class, 'submissionOrderAdmin']);
 });

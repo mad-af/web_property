@@ -1,4 +1,5 @@
 @extends('adminPage/_layout')
+@inject('method', 'App\Helper\Method')
 
 @section('content')
   <h2 class="col h2 mb-4 text-gray-800 font-weight-bold">Properti</h2>
@@ -33,7 +34,7 @@
             <img src="{{asset($item['image'])}}" height="60em" width="75em" alt="image-property">
           </td>
           <td class="align-middle" >{{ $item['title'] }}</td>
-          <td class="align-middle" >{{ $item['price'] }}</td>
+          <td class="align-middle" >{{ $method::priceFormat($item['price']) }}</td>
           <td class="align-middle" >{{ $item['address'] }}</td>
           <td class="align-middle" >
             @if ($item['category'] == 0)
