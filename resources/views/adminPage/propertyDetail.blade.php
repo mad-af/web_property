@@ -125,7 +125,7 @@
             @endfor
           </div>
           <div class="col-md-6 mb-3">
-            <label>Ukuran Panjang</label>
+            <label>Ukuran Lebar</label>
             <input name="width" value="{{ $data['width'] }}" type="number" class="form-control" placeholder="Masukan ukuran lebar (meter)" required readonly>
           </div>
         </div>
