@@ -25,6 +25,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/forgot-password', [AuthController::class, 'authForgotPasswordView']);
     Route::post('/login', [AuthController::class, 'authLoginAction']);
     Route::post('/register', [AuthController::class, 'authRegisterAction'])->withoutMiddleware(['guest']);
+    Route::post('/forgot-password', [AuthController::class, 'authForgotPasswordAction'])->name('forgotPasswordAction');
     Route::post('/logout', [AuthController::class, 'authLogoutAction'])->withoutMiddleware(['guest']);
 });
 

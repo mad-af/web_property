@@ -20,15 +20,16 @@ Lupa Akun
                         <p class="mb-4">Kami mengerti, hal-hal terjadi. Cukup masukkan alamat email Anda di 
                           bawah ini dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda!</p>
                     </div>
-                    <form class="user">
+                    <form class="user" method="POST" action="{{route('forgotPasswordAction')}}">
+                        @csrf
                         <div class="form-group">
-                            <input type="email" class="form-control form-control-user"
+                            <input type="email" class="form-control form-control-user" name="email"
                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                placeholder="Enter Email Address...">
+                                placeholder="Enter Email Address..." required>
                         </div>
-                        <a href="login.html" class="btn btn-primary btn-user btn-block">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
                             Setel Ulang
-                        </a>
+                        </button>
                     </form>
                     <hr>
                     <div class="text-center">
