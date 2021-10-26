@@ -23,9 +23,11 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'authLoginView']);
     Route::get('/register', [AuthController::class, 'authRegisterView']);
     Route::get('/forgot-password', [AuthController::class, 'authForgotPasswordView']);
+    Route::get('/reset-page/{token}', [AuthController::class, 'resetView'])->name('resetPage');
     Route::post('/login', [AuthController::class, 'authLoginAction']);
     Route::post('/register', [AuthController::class, 'authRegisterAction'])->withoutMiddleware(['guest']);
     Route::post('/forgot-password', [AuthController::class, 'authForgotPasswordAction'])->name('forgotPasswordAction');
+    Route::post('/reconfigure-password', [AuthController::class, 'resetPasswordAction'])->name('resetPasswordAction');
     Route::post('/logout', [AuthController::class, 'authLogoutAction'])->withoutMiddleware(['guest']);
 });
 
