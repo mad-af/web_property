@@ -18,17 +18,11 @@ Find Home
                     @endif
                     <form action="{{url('/find-home')}}" method="POST">
                         @csrf
-                        <select class="form-control" style="margin-bottom:30px" name="subSalaryId" required>
-                            <option value="" selected disabled hidden>Pilih Gaji (Per Bulan)</option>
-                            @foreach ($salary as $item)
-                                @if (old('subSalaryId') == $item['id']) 
-                                <option selected value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                @else 
-                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                        <select class="form-control" style="margin-bottom:30px" name="subHomeFurnitureId" required>
+                        <label>Pendapatan (Per Bulan)</label>
+                        <input type="number" style="margin-bottom:20px" class="form-control form-control-user"
+                            name="salary" placeholder="Masukkan Pendapatan Anda" value="{{ old('salary') }}" required>
+                        <label>Tipe Perabotan Rumah</label>
+                        <select class="form-control" style="margin-bottom:20px" name="subHomeFurnitureId" required>
                             <option value="" selected disabled hidden>Pilih Tipe Perabotan Rumah</option>
                             @foreach ($houseType as $item)
                                 @if (old('subHomeFurnitureId') == $item['id']) 
@@ -38,7 +32,8 @@ Find Home
                                 @endif
                             @endforeach
                         </select>
-                        <select class="form-control" style="margin-bottom:30px" name="subFamilyMemberId" required>
+                        <label>Jumlah Anggota Keluarga</label>
+                        <select class="form-control" style="margin-bottom:20px" name="subFamilyMemberId" required>
                             <option value="" selected disabled hidden>Pilih Jumlah Anggota Keluarga</option>
                             @foreach ($familyMember as $item)
                                 @if (old('subFamilyMemberId') == $item['id']) 
@@ -56,34 +51,36 @@ Find Home
                 @if (!empty(session('property-find-home')))
                 <div class="border border-success">
                     <!-- CARD -->
+                    @foreach (session('property-find-home') as $item)
                     <div id="item-card" style="margin: 0 auto; max-width: 386.667px;" class="item">
                         <div class="property-wrap ftco-animate" style="margin-bottom: 0">
-                            <img src="{{ asset(session('property-find-home')['image']) }}" class="img" style="background-color: gray" alt="property-image">
+                            <img src="{{ asset($item['image']) }}" class="img" style="background-color: gray" alt="property-image">
                             <div class="text" style="background: rgb(243,243,243);">
                                 <h3 style="font-weight: bolder">
                                 <strong>
-                                    {{ session('property-find-home')['title'] }}
+                                    {{ $item['title'] }}
                                 </strong>
                                 </h3>
-                                <span class="location" style="font-size: 90%">{{ session('property-find-home')['address'] }}</span>
-                                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat(session('property-find-home')['price']) }}</h2>
+                                <span class="location" style="font-size: 90%">{{ $item['address'] }}</span>
+                                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat($item['price']) }}</h2>
                                 <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                                 <div class="d-flex align-items-center">
                                     <i class="fa fa-bed fa-lg" aria-hidden="true"></i>
                                     {{-- <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/3030/3030336.png" alt="icon"> --}}
-                                    <h3 class="ml-2">{{ session('property-find-home')['bedRoom'] }} kamar tidur</h3>
+                                    <h3 class="ml-2">{{ $item['bedRoom'] }} kamar tidur</h3>
                                 </div>
                                 <i class="fa fa-bath fa-lg" aria-hidden="true"></i>
                                 {{-- <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/638/638137.png" alt="icon"> --}}
-                                <span class="d-flex" style="margin-left: 0.5rem">{{ session('property-find-home')['bathRoom'] }} kamar mandi</span>
+                                <span class="d-flex" style="margin-left: 0.5rem">{{ $item['bathRoom'] }} kamar mandi</span>
                                 <a href="#" class="btn d-flex btn-success baddge" style="border-radius: 0%, cursor: context-menu !important">Jual</a>
                                 </div>
                                 <div class="list-team d-flex align-items-center mt-2 border-top">
-                                <a href="{{url('/user/property/'.session('property-find-home')['id'])}}" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>
+                                <a href="{{url('/user/property/'.$item['id'])}}" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>
                                 </div>
                             </div>
                         </div>
                     </div> 
+                    @endforeach
                 </div>
                 @endif
             </div>

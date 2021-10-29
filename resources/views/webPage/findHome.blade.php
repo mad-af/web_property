@@ -18,17 +18,11 @@ Find Home
                     @endif
                     <form action="{{url('/find-home')}}" method="POST">
                         @csrf
-                        <select class="form-control" style="margin-bottom:30px" name="subSalaryId" required>
-                            <option value="" selected disabled hidden>Pilih Gaji (Per Bulan)</option>
-                            @foreach ($salary as $item)
-                                @if (old('subSalaryId') == $item['id']) 
-                                <option selected value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                @else 
-                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                        <select class="form-control" style="margin-bottom:30px" name="subHomeFurnitureId" required>
+                        <label>Pendapatan (Per Bulan)</label>
+                        <input type="number" style="margin-bottom:20px" class="form-control form-control-user"
+                            name="salary" placeholder="Masukkan Pendapatan Anda" value="{{ old('salary') }}" required>
+                        <label>Tipe Perabotan Rumah</label>
+                        <select class="form-control" style="margin-bottom:20px" name="subHomeFurnitureId" required>
                             <option value="" selected disabled hidden>Pilih Tipe Perabotan Rumah</option>
                             @foreach ($houseType as $item)
                                 @if (old('subHomeFurnitureId') == $item['id']) 
@@ -38,7 +32,8 @@ Find Home
                                 @endif
                             @endforeach
                         </select>
-                        <select class="form-control" style="margin-bottom:30px" name="subFamilyMemberId" required>
+                        <label>Jumlah Anggota Keluarga</label>
+                        <select class="form-control" style="margin-bottom:20px" name="subFamilyMemberId" required>
                             <option value="" selected disabled hidden>Pilih Jumlah Anggota Keluarga</option>
                             @foreach ($familyMember as $item)
                                 @if (old('subFamilyMemberId') == $item['id']) 
