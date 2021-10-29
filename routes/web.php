@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\FindHomeController;
+use App\Http\Controllers\CommonsController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,15 +23,16 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'authLoginView']);
     Route::get('/register', [AuthController::class, 'authRegisterView']);
     Route::get('/forgot-password', [AuthController::class, 'authForgotPasswordView']);
+    Route::get('/reset-page/{token}', [AuthController::class, 'resetView'])->name('resetPage');
     Route::post('/login', [AuthController::class, 'authLoginAction']);
-    Route::post('/register', [AuthController::class, 'authRegisterAction']);
+    Route::post('/register', [AuthController::class, 'authRegisterAction'])->withoutMiddleware(['guest']);
+    Route::post('/forgot-password', [AuthController::class, 'authForgotPasswordAction'])->name('forgotPasswordAction');
+    Route::post('/reconfigure-password', [AuthController::class, 'resetPasswordAction'])->name('resetPasswordAction');
     Route::post('/logout', [AuthController::class, 'authLogoutAction'])->withoutMiddleware(['guest']);
 });
 
 // web-page
-Route::get('/', function () {
-    return view('webPage.index');
-});
+Route::get('/', [CommonsController::class, 'indexView']);
 Route::get('/find-home', [FindHomeController::class, 'findHomeView']);
 Route::post('/find-home', [FindHomeController::class, 'findHomeAction']);
 Route::get('/about-us', function () {
@@ -37,15 +40,12 @@ Route::get('/about-us', function () {
 });
 
 Route::middleware(['auth', 'user'])->group(function () {
-    Route::get('/user/property', function () {   
-        return view('userPage.property');
-    });
-    Route::get('/user/find-home', function () {   
-        return view('userPage.findHome');
-    });
-    Route::get('/user/cart', function () {   
-        return view('userPage.cart');
-    });
+    Route::get('/user/property', [PropertyController::class, 'listPropertyView']);
+    Route::get('/user/property/{propertyId}', [PropertyController::class, 'detailPropertyView']);
+    Route::get('/user/find-home', [FindHomeController::class, 'findHomeView']);
+    Route::get('/user/cart', [orderController::class, 'cartView']);
+    Route::post('/user/order/{propertyId}', [orderController::class, 'addOrderProperty']);
+    Route::put('/user/order/submission/{orderId}', [orderController::class, 'submissionOrderProperty']);
 });
 
 // admin-page
@@ -56,13 +56,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/property/add', [PropertyController::class, 'addPropertyAction']);
     Route::put('/admin/property/{propertyId}/edit', [PropertyController::class, 'editPropertyAction']);
     Route::delete('/admin/property/{propertyId}/delete', [PropertyController::class, 'deletePropertyAction']);
-    Route::get('/admin/user', function () {
-        return view('adminPage.user');
-    });
-    Route::get('/admin/user/add', function () {
-        return view('adminPage.userAdd');
-    });
-    Route::get('/admin/order', function () {
-        return view('adminPage.order');
-    });
+    Route::get('/admin/user', [AuthController::class, 'listUserView']);
+    Route::get('/admin/user/add', [AuthController::class, 'addUserAdminView']);
+    Route::get('/admin/order', [orderController::class, 'cartView']);
+    Route::put('/admin/order/submission/{orderId}', [orderController::class, 'submissionOrderAdmin']);
 });

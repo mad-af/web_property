@@ -12,4 +12,11 @@ class Order extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function property() {
+        return $this->belongsTo(Property::class, 'propertyId');
+    }
+    public function user() {
+        return $this->belongsTo(User::class, 'userId');
+    }
 }

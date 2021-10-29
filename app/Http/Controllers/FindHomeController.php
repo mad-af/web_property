@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
 
 use App\Models\Sub;
@@ -12,6 +13,9 @@ class FindHomeController extends Controller {
 
 	public function findHomeView () {
 		$data = Sub::get()->groupBy('attribute')->toArray();
+		if (Auth::check()) {
+			return view('userPage.findHome', $data);
+		}
 		return view('webPage.findHome', $data);
 	}
 
@@ -31,9 +35,12 @@ class FindHomeController extends Controller {
 			$propertyId = $this->fuzzyMCDM($sub);
 
 			$property = Property::where('id', $propertyId)->first();
+			$property['bedRoom'] = Commons::BED_ROOM[$property['bedRoom']];
+			$property['bathRoom'] = Commons::BATH_ROOM[$property['bathRoom']];
 		} catch (\Throwable $th) {
 			return back()->withErrors('Gagal find home, segera hubungi developer');
 		}
+		
 		return back()->withInput($payload)->with('property-find-home', $property);
 	}
 	

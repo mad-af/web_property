@@ -20,6 +20,8 @@
   
   <link rel="stylesheet" href="{{asset('css/flaticon.css')}}">
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
+  
+  <link rel="stylesheet" href="{{asset('css/adjustments.css')}}">
   <style>
     .register-notif{
       opacity: 0%;
@@ -67,13 +69,13 @@
         <li class="nav-item {{ Request::is('user/find-home') || Request::is('user/find-home/*') ? 'active' : ''}}"><a href="{{url('user/find-home')}}" class="nav-link">Find Home</a></li>
         
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle">Hello, Mochamad</a>
+          <a class="nav-link dropdown-toggle">Hello, {{ Auth::user()->firstName }}</a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <li><a class="dropdown-item" href="{{url('user/cart')}}">
               <em class="fa fa-shopping-cart" aria-hidden="true"></em> &ensp; Keranjang</a>
             </li>
             <li>
-              <form action="{{url('/logout')}}" method="POST">
+              <form class="logoutButton" action="{{url('/logout')}}" method="POST">
                 @csrf
                 <button type="submit" class="dropdown-item">
                   <span><em class="fa fa-sign-out" aria-hidden="true"></em> &ensp; Keluar</span>
@@ -158,3 +160,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <script src="{{asset('js/main.js')}}"></script>
 </html>
 @endsection
+
+<style>
+  .logoutButton {
+    margin: 0;
+  }
+</style>

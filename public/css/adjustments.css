@@ -1,0 +1,25 @@
+.spaces{
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.item-image{
+    width: 18rem;
+    height: 12rem;
+}
+
+@media (max-width: 1900px) {
+    .container {
+        width: 1700px;
+        left: 0;
+        right: 0;
+    }
+}
+
+@media (max-width: 1500px) {
+    .container {
+        width: 1400px;
+        left: 0;
+        right: 0;
+    }
+}

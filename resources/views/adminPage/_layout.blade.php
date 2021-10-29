@@ -39,7 +39,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <em class="fas fa-laugh-wink"></em>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Admin</div>
             </a>
 
             <!-- Divider -->
@@ -51,11 +51,13 @@
                     <em class="fas fa-fw fa-home"></em>
                     <span>Properti</span></a>
             </li>
+            @if ( Auth::user()->role == 3)
             <li class="nav-item {{ Request::is('admin/user') || Request::is('admin/user/*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{url('/admin/user')}}">
                     <em class="fas fa-fw fa-user"></em>
                     <span>User</span></a>
             </li>
+            @endif
             <li class="nav-item {{ Request::is('admin/order') || Request::is('admin/order/*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{url('/admin/order')}}">
                     <em class="fas fa-fw fa-shopping-cart"></em>
@@ -102,7 +104,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->firstName.' '.Auth::user()->lastName }}</span>
                                 <img class="img-profile rounded-emircle"
                                     src="{{asset('images/adminPage/undraw_profile.svg')}}" alt="profile">
                             </a>
