@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
+use App\Helper\Method;
 
 use App\Models\Sub;
 use App\Models\Property;
@@ -20,27 +21,34 @@ class FindHomeController extends Controller {
 	}
 
 	public function findHomeAction (Request $req) {
-		try {
-			$payload = $req->validate([
-				'subSalaryId' => ['required', 'integer'],
-				'subHomeFurnitureId' => ['required', 'integer'],
-				'subFamilyMemberId' => ['required', 'integer']
-			]);
+		$payload = $req->validate([
+			'salary' => ['required', 'integer', 'min:1000000'],
+			'subHomeFurnitureId' => ['required', 'integer'],
+			'subFamilyMemberId' => ['required', 'integer']
+		]);
 
-			$sub = [];
-			foreach ($payload as $value) {
-				array_push($sub, $value);
-			}
+		$salary = $payload['salary'];
+		$payload['subSalaryId'] = Method::salarySub($salary);
+		unset($payload['salary']); 
+
+		$sub = [];
+		foreach ($payload as $value) {
+			array_push($sub, $value);
+		}
 			
+		try {
 			$propertyId = $this->fuzzyMCDM($sub);
 
-			$property = Property::where('id', $propertyId)->first();
-			$property['bedRoom'] = Commons::BED_ROOM[$property['bedRoom']];
-			$property['bathRoom'] = Commons::BATH_ROOM[$property['bathRoom']];
+			$property = Property::whereIn('id', $propertyId)->get();
+			foreach ($property as $value) {
+				$value['bedRoom'] = Commons::BED_ROOM[$value['bedRoom']];
+				$value['bathRoom'] = Commons::BATH_ROOM[$value['bathRoom']];
+			}
 		} catch (\Throwable $th) {
 			return back()->withErrors('Gagal find home, segera hubungi developer');
 		}
 		
+		$payload['salary'] = $salary;
 		return back()->withInput($payload)->with('property-find-home', $property);
 	}
 	
@@ -51,7 +59,7 @@ class FindHomeController extends Controller {
 			array_push($category, $value['x']);
 		}
 
-		$property = Property::get()->toArray();
+		$property = Property::where('sold', false)->get()->toArray();
 		
 		$propertiId = [];
 		$properti_subId = [];
@@ -129,11 +137,21 @@ class FindHomeController extends Controller {
 			$temp = array_sum($value) / count($value);
 			array_push($data_average, $temp);
 		}
-		
-		$answer = max($data_average);
-		$index = array_search($answer, $data_average);
+		define('AVERAGE', $data_average);
+		rsort($data_average);
 
-		return $propertiId[$index];
+		$indexArr = [];
+		for ($i=0; $i<3; $i++) {
+			$temp = array_search($data_average[$i], AVERAGE);
+			array_push($indexArr, $temp);
+		}
+		
+		$data = [
+			$propertiId[$indexArr[0]],
+			$propertiId[$indexArr[1]],
+			$propertiId[$indexArr[2]]
+		];
+		return $data;
 	}
 
 	public function attribute_n($att)  {

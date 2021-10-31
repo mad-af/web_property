@@ -43,4 +43,21 @@ class  Method {
   public static function loanPaymentMax($price){
     return $price*75/100;
   }
+
+  public static function salarySub($salary){
+    $id = 0;
+    if (999999 < $salary && $salary < 3000001) {
+      $id = 1;
+    }
+    else if (3000000 < $salary && $salary < 6000001) {
+      $id = 2;
+    }
+    else if (6000000 < $salary && $salary < 9000001) {
+      $id = 3;
+    }
+    else if (9000000 < $salary) {
+      $id = 4;
+    }
+    return $id;
+  }
 }
