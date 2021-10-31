@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
+use App\Mail\AdminMakeUser;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Carbon\Carbon;
@@ -74,6 +75,7 @@ class AuthController extends Controller
     }
 
     public function authRegisterAction (Request $req) {
+        // dd($req['email']);
         $payload = $req->validate([
             'firstName' => ['required'],
             'lastName' => ['required'],
@@ -104,8 +106,16 @@ class AuthController extends Controller
         
         $data = array_merge($payload, $additional);
         
+        $personalMsg = [
+            'fromAdmin' => 1,
+            'username' => $req['username'],
+            'password' => $password
+        ];
+
         try {
+            Mail::to($req['email'])->send(new AdminMakeUser($personalMsg));
             User::create($data);
+            // return back();  
         } catch (\Throwable $th) {
             return back()->withErrors($th);  
         }

@@ -47,7 +47,7 @@
     </div>
 
     <div class="col">
-      <button type="submit" class="float-right btn btn-primary mb-3">Buat Properti</button>
+      <button type="submit" class="float-right btn btn-primary mb-3">Buat User</button>
     </div>
   </form>
 
