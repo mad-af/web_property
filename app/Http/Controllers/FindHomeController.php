@@ -162,4 +162,9 @@ class FindHomeController extends Controller {
 		}
 		return $data;
 	}
+
+	public function findHome(Request $req){
+		$finder = Property::where('title', $req->inputFormCari)->orWhere('title', 'like', '%'.$req->inputFormCari.'%')->get();
+		return response($finder, 200);
+	}
 }

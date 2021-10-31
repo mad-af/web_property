@@ -12,8 +12,11 @@ Properti
 <section class="ftco-section" id="property">
     <div class="container">
         <div class="row justify-content-center" style="padding: 6em 0; padding-top: 0">
-            <input type="text" placeholder="Masukkan Judul Rumah" class="form-control" style="max-width: 1100px; margin-right: 10px">
-            <button class="btn btn-success" style="padding-inline: 44px">Cari</button>
+            <form action="{{route('findHome')}}" method="GET" id="formCari">
+                @csrf
+                <input type="text" placeholder="Masukkan Judul Rumah" name="inputFormCari" class="form-control" style="max-width: 1100px; margin-right: 10px">
+                <button type="submit" class="btn btn-success" style="padding-inline: 44px">Cari</button>
+            </form>
         </div>
         <div class="row justify-content-center">
             @foreach ($data as $item)
@@ -85,3 +88,21 @@ Properti
 </section>
   
 @endsection
+
+<script>
+    function getHouseByName() {
+        event.preventDefault()
+        fetch('{{route("findHome")}}', {
+            method: 'POST',
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/form',
+                'mode': 'cors'
+            },
+            body: new FormData(document.getElementById("formCari"))
+        })
+            .then(response => response.text()) 
+            .then(data => console.log(data))
+    }
+    
+</script>

@@ -46,6 +46,7 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/cart', [orderController::class, 'cartView']);
     Route::post('/user/order/{propertyId}', [orderController::class, 'addOrderProperty']);
     Route::put('/user/order/submission/{orderId}', [orderController::class, 'submissionOrderProperty']);
+    Route::get('/user/find', [FindHomeController::class, 'findHome'])->name('findHome');
 });
 
 // admin-page
