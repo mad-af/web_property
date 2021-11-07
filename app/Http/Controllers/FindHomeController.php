@@ -164,7 +164,13 @@ class FindHomeController extends Controller {
 	}
 
 	public function findHome(Request $req){
-		$finder = Property::where('title', $req->inputFormCari)->orWhere('title', 'like', '%'.$req->inputFormCari.'%')->get();
+		$finder = Property::where('title', $req->inpText)->orWhere('title', 'like', '%'.$req->inputFormCari.'%')->get();
 		return response($finder, 200);
+	}
+
+	public function findHomePost(Request $req){
+		$finder = Property::where('title', $req->inpText)->orWhere('title', 'like', '%'.$req->inpText.'%')->get();
+		return response($finder, 200);
+		// var_dump($req);
 	}
 }
