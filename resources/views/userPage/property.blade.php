@@ -32,7 +32,7 @@ Properti
                             <strong>{{ $item['title'] }}</strong>
                         </h3>
                         <span class="location" style="font-size: 90%">{{ $item['address'] }}</span>
-                        {{$item['price']}}
+                        {{-- {{$item['price']}} --}}
                         <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat($item['price']) }}</h2>
                         <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                             <div class="d-flex align-items-center">
@@ -105,12 +105,13 @@ Properti
                 let myprice = 0
                 let toStringVal = ""
                 try {
+                    console.log(res)
                     res.forEach(item => {
-                        myprice = parseInt(item.price)
+                        myprice = item.price
                         toStringVal = "\""+myprice+"\""
                         str += `
-                            <div class="card spaces" style="max-width: 18rem; border: none">
-                                <div class="property-wrap">
+                            <div class="card spaces" style="max-width: 18rem; border: none;">
+                                <div class="property-wrap ftco-animate fadeInUp ftco-animated">
                                     <a href="#">
                                         <img src="{{ asset('${item.image}') }}" class="item-image" alt="property-image">
                                     </a>

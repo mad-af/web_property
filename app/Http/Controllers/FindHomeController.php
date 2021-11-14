@@ -169,7 +169,13 @@ class FindHomeController extends Controller {
 	}
 
 	public function findHomePost(Request $req){
-		$finder = Property::where('title', $req->inpText)->orWhere('title', 'like', '%'.$req->inpText.'%')->get();
+		if ($req!=null) $finder = Property::where('title', $req->inpText)->orWhere('title', 'like', '%'.$req->inpText.'%')->orderBy('id', 'DESC')->get();
+		else $finder = Property::where('sold', '!=', true )->orderBy('id', 'DESC')->get()->toArray();
+
+		foreach ($finder as $key => $value) {
+			$method = Method::priceFormat($finder[$key]["price"]);
+			$finder[$key]["price"] = $method;
+		}
 		return response($finder, 200);
 		// var_dump($req);
 	}
