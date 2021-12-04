@@ -58,6 +58,11 @@
                     <span>User</span></a>
             </li>
             @endif
+            <li class="nav-item {{ Request::is('admin/area') || Request::is('admin/area/*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('pageArea')}}">
+                    <em class="fas fa-fw fa-directions"></em>
+                    <span>Properti Wilayah</span></a>
+            </li>
             <li class="nav-item {{ Request::is('admin/order') || Request::is('admin/order/*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{url('/admin/order')}}">
                     <em class="fas fa-fw fa-shopping-cart"></em>
@@ -156,6 +161,15 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
+    <script>
+        $('#addWilayah').on('click', function() {
+            $('.modal').modal('show');
+        })
+        $('#formWilayah').on('submit', function(e) {
+            e.preventDefault()
+            console.log('otw submit')
+        })
+    </script>
 
 </body>
 
