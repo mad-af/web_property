@@ -10,4 +10,5 @@ class Area extends Model
     use HasFactory;
 
     protected $table = 'area';
+    protected $fillable = array('name_area');
 }

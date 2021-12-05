@@ -19,9 +19,10 @@
         </div>
         <div class="modal-body">
           <form id="formWilayah" method="post">
+            @csrf
             <div class="form-group">
               <label for="namaWilayah">Nama Wilayah</label>
-              <input type="text" class="form-control" id="namaWilayah" required>
+              <input type="text" class="form-control" id="namaWilayah" name="namaWilayah" required>
             </div>
           </form>
         </div>
@@ -33,7 +34,7 @@
     </div>
   </div>
 
-  <table class="table text-center" aria-describedby="list-property">
+  <table id="listArea" class="table text-center" aria-describedby="list-property">
     <thead>
       <tr class="thead-dark">
         <th scope="col">Nomor</th>
@@ -41,9 +42,9 @@
       </tr>
     </thead>
     <tbody>
-      @foreach ($areaData as $item)
+      @foreach ($areaData as $key => $item)
         <tr style="background: #fdfdfe;">
-          <td>{{$number}}</td>
+          <td>{{$key+1}}</td>
           <td>{{$item->name_area}}</td>
         </tr>   
       @endforeach

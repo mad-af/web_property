@@ -51,6 +51,11 @@
                     <em class="fas fa-fw fa-home"></em>
                     <span>Properti</span></a>
             </li>
+            <li class="nav-item {{ Request::is('admin/area') || Request::is('admin/area/*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('pageArea')}}">
+                    <em class="fas fa-fw fa-directions"></em>
+                    <span>Properti Wilayah</span></a>
+            </li>
             @if ( Auth::user()->role == 3)
             <li class="nav-item {{ Request::is('admin/user') || Request::is('admin/user/*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{url('/admin/user')}}">
@@ -58,11 +63,6 @@
                     <span>User</span></a>
             </li>
             @endif
-            <li class="nav-item {{ Request::is('admin/area') || Request::is('admin/area/*') ? 'active' : ''}}">
-                <a class="nav-link" href="{{route('pageArea')}}">
-                    <em class="fas fa-fw fa-directions"></em>
-                    <span>Properti Wilayah</span></a>
-            </li>
             <li class="nav-item {{ Request::is('admin/order') || Request::is('admin/order/*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{url('/admin/order')}}">
                     <em class="fas fa-fw fa-shopping-cart"></em>
@@ -167,7 +167,26 @@
         })
         $('#formWilayah').on('submit', function(e) {
             e.preventDefault()
-            console.log('otw submit')
+            // console.log('otw submit')
+            $.ajax({
+                url: '{{url("/admin/area")}}',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: (res) => {
+                    console.log(res)
+                    let areas = ''
+                    res.forEach((item, _index) => {
+                        areas += `
+                            <tr>
+                                <td>${_index + 1}</td>
+                                <td>${item['name_area']}</td>
+                            </tr>
+                        `
+                    });
+                    $('.modal').modal('hide');
+                    $('#listArea tbody').html(areas)
+                }
+            })
         })
     </script>
 

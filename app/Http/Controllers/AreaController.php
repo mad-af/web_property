@@ -13,4 +13,10 @@ class AreaController extends Controller
         $areaData = Area::all();
         return view('adminPage.area')->with('areaData', $areaData);
     }
+
+    public function store(Request $request)
+    {
+        $data = Area::insert(['name_area' => $request->namaWilayah]);
+        return response(Area::all(), 200);
+    }
 }
