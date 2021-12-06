@@ -31,8 +31,7 @@ class AuthController extends Controller
 
     public function resetView($token){
         $check = PasswordReset::where('token', $token)->get();
-        if(count($check) > 0){
-            // dd($check[0]['email']);
+        if(!empty($check)){
             return response()->view('authPage/resetView', ['email'=>$check[0]['email'], 'token'=>$token]);
         }else dd('Sorry, your token is incorrect or might be expired. Please try to make a new mail request.');
     }
@@ -75,7 +74,6 @@ class AuthController extends Controller
     }
 
     public function authRegisterAction (Request $req) {
-        // dd($req['email']);
         $payload = $req->validate([
             'firstName' => ['required'],
             'lastName' => ['required'],
@@ -115,7 +113,6 @@ class AuthController extends Controller
         try {
             Mail::to($req['email'])->send(new AdminMakeUser($personalMsg));
             User::create($data);
-            // return back();  
         } catch (\Throwable $th) {
             return back()->withErrors($th);  
         }
@@ -125,39 +122,25 @@ class AuthController extends Controller
     }
 
     public function authForgotPasswordAction(Request $req){
-        // dd($req->email);
         $user = User::whereEmail($req->email)->first();
-        if ($user == null) {
-            # code...
-            return redirect()->back();
-        }
+        if (empty($user)) return redirect()->back();
+
         $token = md5(base64_encode(base64_encode(base64_encode(date('YmdHis')))));
         $details = [
             'title' => 'Password Reset',
             'token' => $token
         ];
-        // dd($user['email']);
-        $reset = PasswordReset::insert(['email'=>$user['email'], 'token'=>$token, 'created_at'=>Carbon::now()->toDateTimeString()]);
-        // dd($reset);
+        PasswordReset::insert(['email'=>$user['email'], 'token'=>$token, 'created_at'=>Carbon::now()->toDateTimeString()]);
         Mail::to($user)->send(new \App\Mail\MailSys($details));
         return redirect()->back();
-        // dd($details);
     }
 
     public function resetPasswordAction(Request $req){
-        // dd($req);
         if ($req['password'] != $req['confPassword']) {
             return back()->with(['error'=>'Password tidak sama']);
         }
-        // $payload = $req->validate([
-        //     'password' => ['nullable', 'min:8'],
-        //     'passwordValidation' => ['nullable', 'min:8']
-        // ],
-        // [
-        //     'password.min' => 'Password anda kurang dari 8 huruf',
-        //     'passwordValidation.min' => 'Password anda kurang dari 8 huruf',
-        // ]);
-        $validated = $req->validate([
+
+        $req->validate([
             'password' => 'required|max:255|min:8',
             'confPassword' => 'required|min:8',
         ],
