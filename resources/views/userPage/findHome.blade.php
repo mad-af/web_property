@@ -43,6 +43,17 @@ Find Home
                                 @endif
                             @endforeach
                         </select>
+                        <label>Wilayah</label>
+                        <select class="form-control" style="margin-bottom:20px" name="subArea" required>
+                            <option value="" selected disabled hidden>Pilih Nama Wilayah</option>
+                            @foreach ($area as $item)
+                                @if (old('subArea') == $item['id']) 
+                                <option selected value="{{ $item['name_area'] }}">{{ $item['name_area'] }}</option>
+                                @else 
+                                <option value="{{ $item['name_area'] }}">{{ $item['name_area'] }}</option>
+                                @endif
+                            @endforeach
+                        </select>
                         <button type="submit" onclick="showOnClick()" class="btn btn-success w-100">Find Home</button>
                     </form>
                 </div>

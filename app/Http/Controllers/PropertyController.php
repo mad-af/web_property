@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
-
+use App\Models\Area;
 use App\Models\Sub;
 use App\Models\Property;
 
@@ -43,7 +43,9 @@ class PropertyController extends Controller {
             "parkingLot" => Commons::PARKING_LOT,
             "heating" => Commons::HEATING
         ];
-        $data = array_merge($data, $subData);
+        $wilayah['area'] = Area::get()->toArray();
+        $data = array_merge($data, $subData, $wilayah);
+        // dd($data);
         return view('adminPage.propertyAdd', $data);
     }
 
@@ -105,7 +107,8 @@ class PropertyController extends Controller {
             'description' => ['required'],
             'subSalaryId' => ['required', 'integer'],
             'subHomeFurnitureId' => ['required', 'integer'],
-            'subFamilyMemberId' => ['required', 'integer']
+            'subFamilyMemberId' => ['required', 'integer'],
+            'subAreaId' => ['required']
         ],[
             'address.max' => 'Alamat harus kurang dari 50 karakter',
             'title.unique' => 'Judul telah digunakan!',
@@ -116,7 +119,7 @@ class PropertyController extends Controller {
             $imageName = sha1(time()).'.'.$payload['image']->extension();
             $payload['image']->move(public_path($path), $imageName);
             $payload['image'] = $path.$imageName;
-
+        // dd($payload);
         try {
             Property::create($payload);
         } catch (\Throwable $th) {

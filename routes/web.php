@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PropertyController;
@@ -60,6 +61,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/property/{propertyId}/delete', [PropertyController::class, 'deletePropertyAction']);
     Route::get('/admin/user', [AuthController::class, 'listUserView']);
     Route::get('/admin/user/add', [AuthController::class, 'addUserAdminView']);
+    Route::get('/admin/area', [AreaController::class, 'index'])->name('pageArea');
+    Route::post('/admin/area', [AreaController::class, 'store']);
     Route::get('/admin/order', [orderController::class, 'cartView']);
     Route::put('/admin/order/submission/{orderId}', [orderController::class, 'submissionOrderAdmin']);
 });

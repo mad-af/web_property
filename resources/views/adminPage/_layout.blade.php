@@ -51,6 +51,11 @@
                     <em class="fas fa-fw fa-home"></em>
                     <span>Properti</span></a>
             </li>
+            <li class="nav-item {{ Request::is('admin/area') || Request::is('admin/area/*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('pageArea')}}">
+                    <em class="fas fa-fw fa-directions"></em>
+                    <span>Properti Wilayah</span></a>
+            </li>
             @if ( Auth::user()->role == 3)
             <li class="nav-item {{ Request::is('admin/user') || Request::is('admin/user/*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{url('/admin/user')}}">
@@ -156,6 +161,34 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
+    <script>
+        $('#addWilayah').on('click', function() {
+            $('.modal').modal('show');
+        })
+        $('#formWilayah').on('submit', function(e) {
+            e.preventDefault()
+            // console.log('otw submit')
+            $.ajax({
+                url: '{{url("/admin/area")}}',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: (res) => {
+                    console.log(res)
+                    let areas = ''
+                    res.forEach((item, _index) => {
+                        areas += `
+                            <tr>
+                                <td>${_index + 1}</td>
+                                <td>${item['name_area']}</td>
+                            </tr>
+                        `
+                    });
+                    $('.modal').modal('hide');
+                    $('#listArea tbody').html(areas)
+                }
+            })
+        })
+    </script>
 
 </body>
 

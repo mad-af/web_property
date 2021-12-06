@@ -173,6 +173,15 @@
               @endforeach
             </select>
           </div>
+          <div class="col-md-6 mb-3">
+            <label>Wilayah</label>
+            <select name="subAreaId" class="custom-select" required>
+              <option value="" selected disabled hidden>Pilih wilayah</option>
+              @foreach ($area as $item)
+              <option value="{{ $item['name_area'] }}">{{ $item['name_area'] }}</option>
+              @endforeach
+            </select>
+          </div>
         </div>
 
       </div>

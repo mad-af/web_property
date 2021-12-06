@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
 use App\Helper\Method;
-
+use App\Models\Area;
 use App\Models\Sub;
 use App\Models\Property;
 
@@ -14,8 +14,10 @@ class FindHomeController extends Controller {
 
 	public function findHomeView () {
 		$data = Sub::get()->groupBy('attribute')->toArray();
+		$area['area'] = Area::get()->toArray();
+		// dd(array_merge($data, $area));
 		if (Auth::check()) {
-			return view('userPage.findHome', $data);
+			return view('userPage.findHome', array_merge($data, $area));
 		}
 		return view('webPage.findHome', $data);
 	}
@@ -24,7 +26,8 @@ class FindHomeController extends Controller {
 		$payload = $req->validate([
 			'salary' => ['required', 'integer', 'min:1000000'],
 			'subHomeFurnitureId' => ['required', 'integer'],
-			'subFamilyMemberId' => ['required', 'integer']
+			'subFamilyMemberId' => ['required', 'integer'],
+			'subArea' => ['required']
 		]);
 
 		$salary = $payload['salary'];
