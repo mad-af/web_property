@@ -27,7 +27,7 @@ class FindHomeController extends Controller {
 			'salary' => ['required', 'integer', 'min:1000000'],
 			'subHomeFurnitureId' => ['required', 'integer'],
 			'subFamilyMemberId' => ['required', 'integer'],
-			'subArea' => ['required']
+			// 'subArea' => ['required']
 		]);
 
 		$salary = $payload['salary'];
@@ -50,7 +50,7 @@ class FindHomeController extends Controller {
 		} catch (\Throwable $th) {
 			return back()->withErrors('Gagal find home, segera hubungi developer');
 		}
-		
+		dd($property);
 		$payload['salary'] = $salary;
 		return back()->withInput($payload)->with('property-find-home', $property);
 	}
@@ -133,28 +133,28 @@ class FindHomeController extends Controller {
 			}
 			array_push($data_convert, $temp);
 		}
-
 		// AVERAGE DATA
 		$data_average = [];
 		foreach ($data_convert as $value) {
 			$temp = array_sum($value) / count($value);
 			array_push($data_average, $temp);
 		}
-		define('AVERAGE', $data_average);
+		$AVERAGE = $data_average;
 		rsort($data_average);
-
+		
 		$indexArr = [];
 		for ($i=0; $i<3; $i++) {
-			$temp = array_search($data_average[$i], AVERAGE);
+			$temp = array_search($data_average[$i], $AVERAGE);
+
 			array_push($indexArr, $temp);
+			unset($AVERAGE[$temp]); 
 		}
 		
-		$data = [
+		return [
 			$propertiId[$indexArr[0]],
 			$propertiId[$indexArr[1]],
 			$propertiId[$indexArr[2]]
 		];
-		return $data;
 	}
 
 	public function attribute_n($att)  {
