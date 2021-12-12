@@ -19,7 +19,7 @@ class FindHomeController extends Controller {
 		if (Auth::check()) {
 			return view('userPage.findHome', array_merge($data, $area));
 		}
-		return view('webPage.findHome', $data);
+		return view('webPage.findHome', array_merge($data, $area));
 	}
 
 	public function findHomeAction (Request $req) {
@@ -50,7 +50,7 @@ class FindHomeController extends Controller {
 		} catch (\Throwable $th) {
 			return back()->withErrors('Gagal find home, segera hubungi developer');
 		}
-		dd($property);
+		// dd($property);
 		$payload['salary'] = $salary;
 		return back()->withInput($payload)->with('property-find-home', $property);
 	}

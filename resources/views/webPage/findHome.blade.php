@@ -43,45 +43,58 @@ Find Home
                                 @endif
                             @endforeach
                         </select>
+                        <label>Wilayah</label>
+                        <select class="form-control" style="margin-bottom:20px" name="subArea" required>
+                            <option value="" selected disabled hidden>Pilih Nama Wilayah</option>
+                            @foreach ($area as $item)
+                                @if (old('subArea') == $item['id']) 
+                                <option selected value="{{ $item['name_area'] }}">{{ $item['name_area'] }}</option>
+                                @else 
+                                <option value="{{ $item['name_area'] }}">{{ $item['name_area'] }}</option>
+                                @endif
+                            @endforeach
+                        </select>
                         <button type="submit" onclick="showOnClick()" class="btn btn-success w-100">Find Home</button>
                     </form>
                 </div>
             </div>
             <div class="col">
                 @if (!empty(session('property-find-home')))
-                <div class="border border-success">
-                    <!-- CARD -->
-                    <div id="item-card" style="margin: 0 auto; max-width: 386.667px;" class="item">
-                        <div class="property-wrap ftco-animate" style="margin-bottom: 0">
-                            <img src="{{ asset(session('property-find-home')['image']) }}" class="img" style="background-color: gray" alt="property-image">
-                            <div class="text" style="background: rgb(243,243,243);">
-                                <h3 style="font-weight: bolder">
-                                <strong>
-                                    {{ session('property-find-home')['title'] }}
-                                </strong>
-                                </h3>
-                                <span class="location" style="font-size: 90%">{{ session('property-find-home')['address'] }}</span>
-                                <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat(session('property-find-home')['price']) }}</h2>
-                                <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
-                                <div class="d-flex align-items-center">    
-                                    <i class="fa fa-bed fa-lg" aria-hidden="true"></i>
-                                    <h3 class="ml-2">{{ session('property-find-home')['bedRoom'] }} kamar tidur</h3>
-                                </div>    
-                                <i class="fa fa-bath fa-lg" aria-hidden="true"></i>
-                                <span class="d-flex" style="margin-left: 0.5rem">{{ session('property-find-home')['bathRoom'] }} kamar mandi</span>
-                                <a href="#" class="btn d-flex btn-success baddge" style="border-radius: 0%, cursor: context-menu !important">Jual</a>
+                    @foreach (session('property-find-home') as $item)
+                        <div class="border border-success">
+                            <!-- CARD -->
+                            <div id="item-card" style="margin: 0 auto; max-width: 386.667px;" class="item">
+                                <div class="property-wrap ftco-animate" style="margin-bottom: 0">
+                                    <img src="{{ asset($item['image']) }}" class="img" style="background-color: gray" alt="property-image">
+                                    <div class="text" style="background: rgb(243,243,243);">
+                                        <h3 style="font-weight: bolder">
+                                        <strong>
+                                            {{ $item['title'] }}
+                                        </strong>
+                                        </h3>
+                                        <span class="location" style="font-size: 90%">{{ $item['address'] }}</span>
+                                        <h2 class="mb-2" style="text-align: center; font-weight: bolder">Rp. {{ $method::priceFormat($item['price']) }}</h2>
+                                        <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
+                                        <div class="d-flex align-items-center">    
+                                            <i class="fa fa-bed fa-lg" aria-hidden="true"></i>
+                                            <h3 class="ml-2">{{ $item['bedRoom'] }} kamar tidur</h3>
+                                        </div>    
+                                        <i class="fa fa-bath fa-lg" aria-hidden="true"></i>
+                                        <span class="d-flex" style="margin-left: 0.5rem">{{ $item['bathRoom'] }} kamar mandi</span>
+                                        <a href="#" class="btn d-flex btn-success baddge" style="border-radius: 0%, cursor: context-menu !important">Jual</a>
+                                        </div>
+                                        <div class="list-team d-flex align-items-center mt-2 border-top">
+                                        @if (Auth::check() && Auth::user()->role == 1)
+                                        <a href="{{url('/user/property/'.$item['id'])}}" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>
+                                        @else
+                                        <a href="{{url('/register')}}" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>
+                                        @endif
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="list-team d-flex align-items-center mt-2 border-top">
-                                @if (Auth::check() && Auth::user()->role == 1)
-                                <a href="{{url('/user/property/'.$item['id'])}}" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>
-                                @else
-                                <a href="{{url('/register')}}" class="btn pt-md-2 pb-md-2" style="width: 100%; border-radius: 0; background-color: rgb(234,234,234); margin-top: 15px">Detail</a>
-                                @endif
-                                </div>
-                            </div>
+                            </div> 
                         </div>
-                    </div> 
-                </div>
+                    @endforeach
                 @endif
             </div>
         </div>  
