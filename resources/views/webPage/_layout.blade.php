@@ -50,6 +50,14 @@
       margin-inline: 37%;
       filter: brightness(100%);
     }
+    .carousel-indicators li {
+      background-color: #000;
+      opacity: 0.2;
+    }
+    .carousel-indicators .active {
+      background-color: #000;
+      opacity: 1;
+    }
     </style>
 </head>
 <body> 
