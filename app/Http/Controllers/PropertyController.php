@@ -74,6 +74,7 @@ class PropertyController extends Controller {
                 "bathRoom" => Commons::BATH_ROOM,
                 "parkingLot" => Commons::PARKING_LOT,
                 "heating" => Commons::HEATING,
+                "area" => Area::all()->toArray()
             ];
             $data = array_merge($data, $subData);
 
@@ -82,6 +83,7 @@ class PropertyController extends Controller {
 
 
         if ($edit) {
+            // dd($data);
             return view('adminPage.propertyEdit', $data);
         }
 
@@ -145,7 +147,8 @@ class PropertyController extends Controller {
             'description' => ['nullable'],
             'subSalaryId' => ['nullable', 'integer'],
             'subHomeFurnitureId' => ['nullable', 'integer'],
-            'subFamilyMemberId' => ['nullable', 'integer']
+            'subFamilyMemberId' => ['nullable', 'integer'],
+            'subAreaId' => ['nullable', 'integer']
         ],[
             'address.max' => 'Alamat harus kurang dari 50 karakter',
             // 'title.unique' => 'Judul telah digunakan!',

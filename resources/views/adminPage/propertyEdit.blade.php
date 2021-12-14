@@ -211,6 +211,19 @@
               @endforeach
             </select>
           </div>
+          <div class="col-md-6 mb-3">
+            <label>Wilayah</label>
+            <select name="subAreaId" class="custom-select" required>
+              <option value="" selected disabled hidden>Pilih Wilayah</option>
+              @foreach ($area as $item)
+                @if ($data['subAreaId'] == $item['id']) 
+                <option selected value="{{ $item['id'] }}">{{ $item['name_area'] }}</option>
+                @else 
+                <option value="{{ $item['id'] }}">{{ $item['name_area'] }}</option>
+                @endif
+              @endforeach
+            </select>
+          </div>
         </div>
 
       </div>
