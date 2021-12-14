@@ -19,7 +19,7 @@ class FindHomeController extends Controller {
 		if (Auth::check()) {
 			return view('userPage.findHome', array_merge($data, $area));
 		}
-		return view('webPage.findHome', $data);
+		return view('webPage.findHome', array_merge($data, $area));
 	}
 
 	public function findHomeAction (Request $req) {
@@ -27,7 +27,7 @@ class FindHomeController extends Controller {
 			'salary' => ['required', 'integer', 'min:1000000'],
 			'subHomeFurnitureId' => ['required', 'integer'],
 			'subFamilyMemberId' => ['required', 'integer'],
-			// 'subArea' => ['required']
+			'subArea' => ['required']
 		]);
 
 		$salary = $payload['salary'];
@@ -48,9 +48,10 @@ class FindHomeController extends Controller {
 				$value['bathRoom'] = Commons::BATH_ROOM[$value['bathRoom']];
 			}
 		} catch (\Throwable $th) {
+			// dd($th);
 			return back()->withErrors('Gagal find home, segera hubungi developer');
 		}
-		dd($property);
+		// dd($property);
 		$payload['salary'] = $salary;
 		return back()->withInput($payload)->with('property-find-home', $property);
 	}
@@ -62,8 +63,7 @@ class FindHomeController extends Controller {
 			array_push($category, $value['x']);
 		}
 
-		$property = Property::where('sold', false)->get()->toArray();
-		
+		$property = Property::where('sold', false)->where('subAreaId', intval($payload[2]))->get()->toArray();
 		$propertiId = [];
 		$properti_subId = [];
 		foreach ($property as $propertiArg) {
@@ -143,18 +143,29 @@ class FindHomeController extends Controller {
 		rsort($data_average);
 		
 		$indexArr = [];
-		for ($i=0; $i<3; $i++) {
+		for ($i=0; $i<count($propertiId); $i++) {
 			$temp = array_search($data_average[$i], $AVERAGE);
 
 			array_push($indexArr, $temp);
 			unset($AVERAGE[$temp]); 
 		}
-		
-		return [
-			$propertiId[$indexArr[0]],
-			$propertiId[$indexArr[1]],
-			$propertiId[$indexArr[2]]
-		];
+		if (count($propertiId) < 3) {
+			# code...
+			$toReturn = []; 
+			for ($i=0; $i < count($propertiId); $i++) { 
+				# code...
+				array_push($toReturn, $propertiId[$indexArr[$i]]);
+			}
+			return [
+				$toReturn
+			];
+		}else{
+			return [
+				$propertiId[$indexArr[0]],
+				$propertiId[$indexArr[1]],
+				$propertiId[$indexArr[2]]
+			];
+		}
 	}
 
 	public function attribute_n($att)  {
