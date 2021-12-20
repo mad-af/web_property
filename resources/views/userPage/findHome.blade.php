@@ -47,10 +47,10 @@ Find Home
                         <select class="form-control" style="margin-bottom:20px" name="subArea" required>
                             <option value="" selected disabled hidden>Pilih Nama Wilayah</option>
                             @foreach ($area as $item)
-                                @if (old('subArea') == $item['id']) 
-                                <option selected value="{{ $item['id'] }}">{{ $item['name_area'] }}</option>
+                                @if (old('subArea') == $item['name_area']) 
+                                <option selected value="{{ $item['name_area'] }}">{{ $item['name_area'] }}</option>
                                 @else 
-                                <option value="{{ $item['id'] }}">{{ $item['name_area'] }}</option>
+                                <option value="{{ $item['name_area'] }}">{{ $item['name_area'] }}</option>
                                 @endif
                             @endforeach
                         </select>

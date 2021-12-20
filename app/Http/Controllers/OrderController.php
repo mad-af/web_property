@@ -113,11 +113,11 @@ class OrderController extends Controller {
         $payload = $req->validate([
             'success' => ['required', 'boolean'],
             'description' => ['nullable'],
-            'propertyId' => ['nullable']
+            'propertyId' => ['required']
         ]);
 
         $payload['status'] = 3;
-        $propertyId = $payload['propertyId'];
+        $propertyId = $payload['propertyId'] ;
         unset($payload['peropertyId']);
 
         $updateQuery = [

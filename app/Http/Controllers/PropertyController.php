@@ -9,7 +9,7 @@ use App\Models\Area;
 use App\Models\Sub;
 use App\Models\Property;
 
-use File;
+use Illuminate\Support\Facades\File;
 
 class PropertyController extends Controller {
     // VIEW
@@ -121,7 +121,7 @@ class PropertyController extends Controller {
             $imageName = sha1(time()).'.'.$payload['image']->extension();
             $payload['image']->move(public_path($path), $imageName);
             $payload['image'] = $path.$imageName;
-        // dd($payload);
+
         try {
             Property::create($payload);
         } catch (\Throwable $th) {

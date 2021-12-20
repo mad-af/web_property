@@ -15,7 +15,7 @@ class FindHomeController extends Controller {
 	public function findHomeView () {
 		$data = Sub::get()->groupBy('attribute')->toArray();
 		$area['area'] = Area::get()->toArray();
-		// dd(array_merge($data, $area));
+
 		if (Auth::check()) {
 			return view('userPage.findHome', array_merge($data, $area));
 		}
@@ -48,22 +48,23 @@ class FindHomeController extends Controller {
 				$value['bathRoom'] = Commons::BATH_ROOM[$value['bathRoom']];
 			}
 		} catch (\Throwable $th) {
-			// dd($th);
 			return back()->withErrors('Gagal find home, segera hubungi developer');
 		}
-		// dd($property);
+
 		$payload['salary'] = $salary;
 		return back()->withInput($payload)->with('property-find-home', $property);
 	}
 	
 	public function fuzzyMCDM ($payload) {
+		$areaId = $payload[2];
+		unset($payload[2]);
 		$category = [];
-		$sub = Sub::whereIn('id', $payload)->get();
+		$sub = Sub::whereIn('id', array_values($payload))->get();
 		foreach ($sub as $value) {
 			array_push($category, $value['x']);
 		}
-
-		$property = Property::where('sold', false)->where('subAreaId', intval($payload[2]))->get()->toArray();
+		
+		$property = Property::where('sold', false)->where('subAreaId', $areaId)->get()->toArray();
 		$propertiId = [];
 		$properti_subId = [];
 		foreach ($property as $propertiArg) {
@@ -94,7 +95,7 @@ class FindHomeController extends Controller {
 			}
 			array_push($propertiData, $temp);
 		}
-
+		
 		// PENGGABUNGAN ANTARA DATA PROPERTI DENGAN CRITERIA
 		$data_penggabungan = [];
 		foreach ($propertiData as $value) {
@@ -133,6 +134,7 @@ class FindHomeController extends Controller {
 			}
 			array_push($data_convert, $temp);
 		}
+
 		// AVERAGE DATA
 		$data_average = [];
 		foreach ($data_convert as $value) {
@@ -149,11 +151,10 @@ class FindHomeController extends Controller {
 			array_push($indexArr, $temp);
 			unset($AVERAGE[$temp]); 
 		}
+
 		if (count($propertiId) < 3) {
-			# code...
 			$toReturn = []; 
 			for ($i=0; $i < count($propertiId); $i++) { 
-				# code...
 				array_push($toReturn, $propertiId[$indexArr[$i]]);
 			}
 			return [
