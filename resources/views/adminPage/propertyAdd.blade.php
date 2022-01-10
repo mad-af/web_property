@@ -44,7 +44,7 @@
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label>Alamat</label>
-            <input name="address" type="text" class="form-control" placeholder="Masukan alamat - min: 50 karakter" required>
+            <input name="address" type="text" class="form-control" placeholder="Masukan alamat - max: 50 karakter" required>
           </div>
           <div class="col-md-3 mb-3">
             <label>Status</label>
@@ -178,7 +178,7 @@
             <select name="subAreaId" class="custom-select" required>
               <option value="" selected disabled hidden>Pilih wilayah</option>
               @foreach ($area as $item)
-              <option value="{{ $item['name_area'] }}">{{ $item['name_area'] }}</option>
+              <option value="{{ $item['id'] }}">{{ $item['name_area'] }}</option>
               @endforeach
             </select>
           </div>
