@@ -56,7 +56,7 @@ Properti
         </div>
         <div class="mt-4 mb-1">
           <h5 class="font-weight-bold" >Deskripsi</h5>
-          {{ $data['description'] }}
+          {!! nl2br(e($data['description']))!!}
         </div>
         <div class="mt-5">
           <form action="{{url('/user/order/'.$data['id'])}}" method="POST">
