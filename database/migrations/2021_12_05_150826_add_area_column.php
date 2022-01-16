@@ -16,9 +16,9 @@ class AddAreaColumn extends Migration
         //
         if (!Schema::hasColumn('properties', 'subAreaId')) {
             Schema::table('properties', function (Blueprint $table) {
-                $table->unsignedBigInteger('subAreaId')->nullable();
+                $table->string('subAreaId')->nullable();
 
-                $table->foreign('subAreaId')->references('id')->on('area')->onDelete('cascade');
+                // $table->foreign('subAreaId')->references('id')->on('area')->onDelete('cascade');
             });
         }
     }
@@ -33,6 +33,7 @@ class AddAreaColumn extends Migration
         //
         if (Schema::hasColumn('properties', 'subAreaId')) {
             Schema::table('properties', function (Blueprint $table) {
+                // $table->dropForeign(['subAreaId']);
                 $table->dropColumn('subAreaId');
             });
         }
