@@ -76,6 +76,7 @@ class OrderController extends Controller {
             'paymentLoanMin' => ['nullable', 'integer'],
             'paymentLoanMax' => ['nullable', 'integer'],
             'paymentTimes' => ['nullable', 'integer'],
+            'paymentSalary' => ['nullable', 'integer'],
             'proofImage' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']
         ]);
 
