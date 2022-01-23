@@ -164,6 +164,7 @@ Keranjang
                     <input type="hidden" class="form-control" name="paymentMethod" value="1">
                     <input type="hidden" class="form-control" name="prepaymentMin" value="{{ $method::prepayment($item['property']['price']) }}">
                     <input type="number" class="form-control" name="prepayment" placeholder="Uang Tanda Jadi (UTJ)" required>
+                    <input type="number" class="form-control" name="paymentSalary" placeholder="Misal 9000000">
                     <button type="submit" class="btn btn-primary btn-user btn-block mt-2">
                       Ajukan Uang Tanda Jadi
                     </button>
@@ -180,6 +181,7 @@ Keranjang
                     <input type="hidden" class="form-control" name="paymentLoanMin" value="{{ $method::loanPaymentMin($item['property']['price']) }}">
                     <input type="hidden" class="form-control" name="paymentLoanMax" value="{{ $item['property']['price'] }}">
                     <input type="number" class="form-control mb-2" name="paymentLoan" placeholder="Masukkan nilai KPR" required>
+                    <input type="number" class="form-control" name="paymentSalary" placeholder="Misal 9000000">
                     <select class="form-control mb-2" name="paymentTimes" required>
                       <option value="" selected disabled hidden>Pilih Waktu</option>
                       @for ($i = 1; $i < count($paymentTimes); $i++)

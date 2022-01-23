@@ -79,6 +79,7 @@ class AuthController extends Controller
             'lastName' => ['required'],
             'email' => ['required', 'unique:users'],
             'username' => ['required', 'unique:users'],
+            'telephone' => ['required', 'min:11', 'max:13'],
             'password' => ['nullable', 'min:8'],
             'passwordValidation' => ['nullable', 'min:8'],
             'role' => ['nullable']
@@ -86,6 +87,8 @@ class AuthController extends Controller
         [
             'email.unique' => 'Email telah digunakan!',
             'username.unique' => 'Username telah digunakan!',
+            'telephone.min' => 'Panjang no. telephone kurang',
+            'telephone.max' => 'Panjang no. telephone berlebih',
             'password.min' => 'Password anda kurang dari 8 huruf',
             'passwordValidation.min' => 'Password anda kurang dari 8 huruf',
         ]);
@@ -111,10 +114,12 @@ class AuthController extends Controller
         ];
 
         try {
-            Mail::to($req['email'])->send(new AdminMakeUser($personalMsg));
+            if (Auth::user() != null) {
+                Mail::to($req['email'])->send(new AdminMakeUser($personalMsg));
+            }
             User::create($data);
         } catch (\Throwable $th) {
-            return back()->withErrors($th);  
+            return back()->withErrors($th);
         }
 
         $path = Auth::check() ? '/admin/user' : '/login';

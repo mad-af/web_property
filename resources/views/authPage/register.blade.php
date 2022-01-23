@@ -40,6 +40,10 @@ Daftar
                             <input type="text" class="form-control form-control-user" name="username"
                                 placeholder="Username" required>
                         </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user" name="telephone"
+                                placeholder="No. Telephone / HP" required>
+                        </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="password" class="form-control form-control-user"

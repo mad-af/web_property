@@ -42,6 +42,10 @@
             <label>Username</label>
             <input name="username" type="text" class="form-control" placeholder="Masukan username" required>
         </div>
+        <div class="form-group">
+            <label>Telephone</label>
+            <input name="telephone" type="number" class="form-control" placeholder="Masukan No. Telephone" required>
+        </div>
 
       </div>
     </div>

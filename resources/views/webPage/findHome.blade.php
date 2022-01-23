@@ -72,7 +72,6 @@ Find Home
                                 @endforeach
                             </ol>
                             <div class="carousel-inner">
-                                {{-- <img class="d-block w-100" src=".../800x400?auto=yes&bg=777&fg=555&text=First slide" alt="First slide"> --}}
                                 <!-- CARD -->
                                 @foreach (session('property-find-home') as $item)
                                 @if ($loop->first)
@@ -94,11 +93,9 @@ Find Home
                                                 <div class="list-team d-flex align-items-center mt-2 pt-2 border-top">
                                                 <div class="d-flex align-items-center">
                                                     <i class="fa fa-bed fa-lg" aria-hidden="true"></i>
-                                                    {{-- <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/3030/3030336.png" alt="icon"> --}}
                                                     <h3 class="ml-2">{{ $item['bedRoom'] }} kamar tidur</h3>
                                                 </div>
                                                 <i class="fa fa-bath fa-lg" aria-hidden="true"></i>
-                                                {{-- <img style="max-width: 25px; max-height: 25px" src="https://cdn-icons-png.flaticon.com/512/638/638137.png" alt="icon"> --}}
                                                 <span class="d-flex" style="margin-left: 0.5rem">{{ $item['bathRoom'] }} kamar mandi</span>
                                                 <a href="#" class="btn d-flex btn-success baddge" style="border-radius: 0%, cursor: context-menu !important">Jual</a>
                                                 </div>
