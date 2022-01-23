@@ -45,7 +45,6 @@ class PropertyController extends Controller {
         ];
         $wilayah['area'] = Area::get()->toArray();
         $data = array_merge($data, $subData, $wilayah);
-        // dd($data);
         return view('adminPage.propertyAdd', $data);
     }
 
@@ -83,7 +82,6 @@ class PropertyController extends Controller {
 
 
         if ($edit) {
-            // dd($data);
             return view('adminPage.propertyEdit', $data);
         }
 
@@ -151,7 +149,6 @@ class PropertyController extends Controller {
             'subAreaId' => ['nullable', 'integer']
         ],[
             'address.max' => 'Alamat harus kurang dari 50 karakter',
-            // 'title.unique' => 'Judul telah digunakan!',
             'image.max' => 'Gambar harus kurang dari 2mb'
         ]);
 

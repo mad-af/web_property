@@ -114,14 +114,12 @@ class AuthController extends Controller
         ];
 
         try {
-            // dd(Auth::user());
             if (Auth::user() != null) {
                 Mail::to($req['email'])->send(new AdminMakeUser($personalMsg));
             }
             User::create($data);
         } catch (\Throwable $th) {
-            // return back()->withErrors($th);  
-            dd($th);
+            return back()->withErrors($th);
         }
 
         $path = Auth::check() ? '/admin/user' : '/login';

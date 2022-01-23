@@ -33,7 +33,7 @@ class AdminMakeUser extends Mailable
             return $this->subject('Owner Made An Account for You')->view('emails.NewAcc');
         }
         catch(Exception $e){
-            dd($e);
+            return response($e, 500);
         }
     }
 }
