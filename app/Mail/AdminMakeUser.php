@@ -32,8 +32,8 @@ class AdminMakeUser extends Mailable
         try{
             return $this->subject('Owner Made An Account for You')->view('emails.NewAcc');
         }
-        catch(Exception $e){
-            return response($e, 500);
+        catch(\Throwable $th){
+            return back()->withErrors($th);
         }
     }
 }

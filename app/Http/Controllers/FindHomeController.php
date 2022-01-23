@@ -192,6 +192,5 @@ class FindHomeController extends Controller {
 			$finder[$key]["price"] = $method;
 		}
 		return response($finder, 200);
-		// var_dump($req);
 	}
 }

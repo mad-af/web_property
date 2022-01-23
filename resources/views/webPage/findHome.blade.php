@@ -72,7 +72,6 @@ Find Home
                                 @endforeach
                             </ol>
                             <div class="carousel-inner">
-                                {{-- <img class="d-block w-100" src=".../800x400?auto=yes&bg=777&fg=555&text=First slide" alt="First slide"> --}}
                                 <!-- CARD -->
                                 @foreach (session('property-find-home') as $item)
                                 @if ($loop->first)
