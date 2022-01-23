@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
+use App\Mail\AdminMakeUser;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Carbon\Carbon;
@@ -30,8 +31,7 @@ class AuthController extends Controller
 
     public function resetView($token){
         $check = PasswordReset::where('token', $token)->get();
-        if(count($check) > 0){
-            // dd($check[0]['email']);
+        if(!empty($check)){
             return response()->view('authPage/resetView', ['email'=>$check[0]['email'], 'token'=>$token]);
         }else dd('Sorry, your token is incorrect or might be expired. Please try to make a new mail request.');
     }
@@ -79,6 +79,7 @@ class AuthController extends Controller
             'lastName' => ['required'],
             'email' => ['required', 'unique:users'],
             'username' => ['required', 'unique:users'],
+            'telephone' => ['required', 'min:11', 'max:13'],
             'password' => ['nullable', 'min:8'],
             'passwordValidation' => ['nullable', 'min:8'],
             'role' => ['nullable']
@@ -86,6 +87,8 @@ class AuthController extends Controller
         [
             'email.unique' => 'Email telah digunakan!',
             'username.unique' => 'Username telah digunakan!',
+            'telephone.min' => 'Panjang no. telephone kurang',
+            'telephone.max' => 'Panjang no. telephone berlebih',
             'password.min' => 'Password anda kurang dari 8 huruf',
             'passwordValidation.min' => 'Password anda kurang dari 8 huruf',
         ]);
@@ -104,10 +107,19 @@ class AuthController extends Controller
         
         $data = array_merge($payload, $additional);
         
+        $personalMsg = [
+            'fromAdmin' => 1,
+            'username' => $req['username'],
+            'password' => $password
+        ];
+
         try {
+            if (Auth::user() != null) {
+                Mail::to($req['email'])->send(new AdminMakeUser($personalMsg));
+            }
             User::create($data);
         } catch (\Throwable $th) {
-            return back()->withErrors($th);  
+            return back()->withErrors($th);
         }
 
         $path = Auth::check() ? '/admin/user' : '/login';
@@ -115,39 +127,25 @@ class AuthController extends Controller
     }
 
     public function authForgotPasswordAction(Request $req){
-        // dd($req->email);
         $user = User::whereEmail($req->email)->first();
-        if ($user == null) {
-            # code...
-            return redirect()->back();
-        }
+        if (empty($user)) return redirect()->back();
+
         $token = md5(base64_encode(base64_encode(base64_encode(date('YmdHis')))));
         $details = [
             'title' => 'Password Reset',
             'token' => $token
         ];
-        // dd($user['email']);
-        $reset = PasswordReset::insert(['email'=>$user['email'], 'token'=>$token, 'created_at'=>Carbon::now()->toDateTimeString()]);
-        // dd($reset);
+        PasswordReset::insert(['email'=>$user['email'], 'token'=>$token, 'created_at'=>Carbon::now()->toDateTimeString()]);
         Mail::to($user)->send(new \App\Mail\MailSys($details));
         return redirect()->back();
-        // dd($details);
     }
 
     public function resetPasswordAction(Request $req){
-        // dd($req);
         if ($req['password'] != $req['confPassword']) {
             return back()->with(['error'=>'Password tidak sama']);
         }
-        // $payload = $req->validate([
-        //     'password' => ['nullable', 'min:8'],
-        //     'passwordValidation' => ['nullable', 'min:8']
-        // ],
-        // [
-        //     'password.min' => 'Password anda kurang dari 8 huruf',
-        //     'passwordValidation.min' => 'Password anda kurang dari 8 huruf',
-        // ]);
-        $validated = $req->validate([
+
+        $req->validate([
             'password' => 'required|max:255|min:8',
             'confPassword' => 'required|min:8',
         ],

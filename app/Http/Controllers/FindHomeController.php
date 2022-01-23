@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
 use App\Helper\Method;
-
+use App\Models\Area;
 use App\Models\Sub;
 use App\Models\Property;
 
@@ -14,17 +14,20 @@ class FindHomeController extends Controller {
 
 	public function findHomeView () {
 		$data = Sub::get()->groupBy('attribute')->toArray();
+		$area['area'] = Area::get()->toArray();
+
 		if (Auth::check()) {
-			return view('userPage.findHome', $data);
+			return view('userPage.findHome', array_merge($data, $area));
 		}
-		return view('webPage.findHome', $data);
+		return view('webPage.findHome', array_merge($data, $area));
 	}
 
 	public function findHomeAction (Request $req) {
 		$payload = $req->validate([
 			'salary' => ['required', 'integer', 'min:1000000'],
 			'subHomeFurnitureId' => ['required', 'integer'],
-			'subFamilyMemberId' => ['required', 'integer']
+			'subFamilyMemberId' => ['required', 'integer'],
+			'subArea' => ['required']
 		]);
 
 		$salary = $payload['salary'];
@@ -47,20 +50,21 @@ class FindHomeController extends Controller {
 		} catch (\Throwable $th) {
 			return back()->withErrors('Gagal find home, segera hubungi developer');
 		}
-		
+
 		$payload['salary'] = $salary;
 		return back()->withInput($payload)->with('property-find-home', $property);
 	}
 	
 	public function fuzzyMCDM ($payload) {
+		$areaId = $payload[2];
+		unset($payload[2]);
 		$category = [];
-		$sub = Sub::whereIn('id', $payload)->get();
+		$sub = Sub::whereIn('id', array_values($payload))->get();
 		foreach ($sub as $value) {
 			array_push($category, $value['x']);
 		}
-
-		$property = Property::where('sold', false)->get()->toArray();
 		
+		$property = Property::where('sold', false)->where('subAreaId', $areaId)->get()->toArray();
 		$propertiId = [];
 		$properti_subId = [];
 		foreach ($property as $propertiArg) {
@@ -91,7 +95,7 @@ class FindHomeController extends Controller {
 			}
 			array_push($propertiData, $temp);
 		}
-
+		
 		// PENGGABUNGAN ANTARA DATA PROPERTI DENGAN CRITERIA
 		$data_penggabungan = [];
 		foreach ($propertiData as $value) {
@@ -137,21 +141,32 @@ class FindHomeController extends Controller {
 			$temp = array_sum($value) / count($value);
 			array_push($data_average, $temp);
 		}
-		define('AVERAGE', $data_average);
+		$AVERAGE = $data_average;
 		rsort($data_average);
-
-		$indexArr = [];
-		for ($i=0; $i<3; $i++) {
-			$temp = array_search($data_average[$i], AVERAGE);
-			array_push($indexArr, $temp);
-		}
 		
-		$data = [
-			$propertiId[$indexArr[0]],
-			$propertiId[$indexArr[1]],
-			$propertiId[$indexArr[2]]
-		];
-		return $data;
+		$indexArr = [];
+		for ($i=0; $i<count($propertiId); $i++) {
+			$temp = array_search($data_average[$i], $AVERAGE);
+
+			array_push($indexArr, $temp);
+			unset($AVERAGE[$temp]); 
+		}
+
+		if (count($propertiId) < 3) {
+			$toReturn = []; 
+			for ($i=0; $i < count($propertiId); $i++) { 
+				array_push($toReturn, $propertiId[$indexArr[$i]]);
+			}
+			return [
+				$toReturn
+			];
+		}else{
+			return [
+				$propertiId[$indexArr[0]],
+				$propertiId[$indexArr[1]],
+				$propertiId[$indexArr[2]]
+			];
+		}
 	}
 
 	public function attribute_n($att)  {
@@ -161,5 +176,21 @@ class FindHomeController extends Controller {
 			array_push($data, $value['x']);
 		}
 		return $data;
+	}
+
+	public function findHome(Request $req){
+		$finder = Property::where('title', $req->inpText)->orWhere('title', 'like', '%'.$req->inputFormCari.'%')->get();
+		return response($finder, 200);
+	}
+
+	public function findHomePost(Request $req){
+		if ($req!=null) $finder = Property::where('title', $req->inpText)->orWhere('title', 'like', '%'.$req->inpText.'%')->orderBy('id', 'DESC')->get();
+		else $finder = Property::where('sold', '!=', true )->orderBy('id', 'DESC')->get()->toArray();
+
+		foreach ($finder as $key => $value) {
+			$method = Method::priceFormat($finder[$key]["price"]);
+			$finder[$key]["price"] = $method;
+		}
+		return response($finder, 200);
 	}
 }

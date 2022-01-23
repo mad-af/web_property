@@ -76,6 +76,7 @@ class OrderController extends Controller {
             'paymentLoanMin' => ['nullable', 'integer'],
             'paymentLoanMax' => ['nullable', 'integer'],
             'paymentTimes' => ['nullable', 'integer'],
+            'paymentSalary' => ['nullable', 'integer'],
             'proofImage' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']
         ]);
 
@@ -113,11 +114,11 @@ class OrderController extends Controller {
         $payload = $req->validate([
             'success' => ['required', 'boolean'],
             'description' => ['nullable'],
-            'propertyId' => ['nullable']
+            'propertyId' => ['required']
         ]);
 
         $payload['status'] = 3;
-        $propertyId = $payload['propertyId'];
+        $propertyId = $payload['propertyId'] ;
         unset($payload['peropertyId']);
 
         $updateQuery = [

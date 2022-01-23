@@ -173,6 +173,14 @@
               @endif
             @endforeach
           </div>
+          <div class="col-md-6 mb-3">
+            <label>Wilayah</label>
+            @foreach ($area as $item)
+              @if ($data['subAreaId'] == $item['id']) 
+              <input type="text" value="{{ $item['name_area'] }}" class="form-control" readonly>
+              @endif
+            @endforeach
+          </div>
         </div>
 
       </div>

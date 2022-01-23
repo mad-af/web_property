@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Commons;
-
+use App\Models\Area;
 use App\Models\Sub;
 use App\Models\Property;
 
-use File;
+use Illuminate\Support\Facades\File;
 
 class PropertyController extends Controller {
     // VIEW
@@ -43,7 +43,8 @@ class PropertyController extends Controller {
             "parkingLot" => Commons::PARKING_LOT,
             "heating" => Commons::HEATING
         ];
-        $data = array_merge($data, $subData);
+        $wilayah['area'] = Area::get()->toArray();
+        $data = array_merge($data, $subData, $wilayah);
         return view('adminPage.propertyAdd', $data);
     }
 
@@ -72,6 +73,7 @@ class PropertyController extends Controller {
                 "bathRoom" => Commons::BATH_ROOM,
                 "parkingLot" => Commons::PARKING_LOT,
                 "heating" => Commons::HEATING,
+                "area" => Area::all()->toArray()
             ];
             $data = array_merge($data, $subData);
 
@@ -105,7 +107,8 @@ class PropertyController extends Controller {
             'description' => ['required'],
             'subSalaryId' => ['required', 'integer'],
             'subHomeFurnitureId' => ['required', 'integer'],
-            'subFamilyMemberId' => ['required', 'integer']
+            'subFamilyMemberId' => ['required', 'integer'],
+            'subAreaId' => ['required']
         ],[
             'address.max' => 'Alamat harus kurang dari 50 karakter',
             'title.unique' => 'Judul telah digunakan!',
@@ -142,10 +145,10 @@ class PropertyController extends Controller {
             'description' => ['nullable'],
             'subSalaryId' => ['nullable', 'integer'],
             'subHomeFurnitureId' => ['nullable', 'integer'],
-            'subFamilyMemberId' => ['nullable', 'integer']
+            'subFamilyMemberId' => ['nullable', 'integer'],
+            'subAreaId' => ['nullable', 'integer']
         ],[
             'address.max' => 'Alamat harus kurang dari 50 karakter',
-            // 'title.unique' => 'Judul telah digunakan!',
             'image.max' => 'Gambar harus kurang dari 2mb'
         ]);
 

@@ -141,6 +141,7 @@
                       @method('PUT')
                       @csrf
                       <input type="hidden" class="form-control" name="success" value="0">
+                      <input type="hidden" class="form-control" name="propertyId" value="{{ $item['propertyId'] }}">
                       <textarea name="description" class="form-control" placeholder="Sebutkan alasan menolak pengajuan" id="exampleFormControlTextarea1" rows="3" required></textarea>
                       <button type="submit" class="btn btn-danger btn-user btn-block mt-2">
                         Tolak Pengajuan

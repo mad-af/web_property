@@ -42,12 +42,16 @@
             <label>Username</label>
             <input name="username" type="text" class="form-control" placeholder="Masukan username" required>
         </div>
+        <div class="form-group">
+            <label>Telephone</label>
+            <input name="telephone" type="number" class="form-control" placeholder="Masukan No. Telephone" required>
+        </div>
 
       </div>
     </div>
 
     <div class="col">
-      <button type="submit" class="float-right btn btn-primary mb-3">Buat Properti</button>
+      <button type="submit" class="float-right btn btn-primary mb-3">Buat User</button>
     </div>
   </form>
 
