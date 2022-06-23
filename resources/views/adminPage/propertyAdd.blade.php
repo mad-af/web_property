@@ -137,55 +137,7 @@
 
   
     <!-- KATEGORI PROPERTI -->
-    <div class="card mb-3">
-      <div class="card-header">
-        Kategori Properti
-      </div>
-      <div class="card-body">
-      <div class="form-row">
-        <div class="col-md-6 mb-3">
-            <label>Gaji</label>
-            <select name="subSalaryId" class="custom-select" required>
-              <option value="" selected disabled hidden>Pilih gaji per bulan</option>
-              @foreach ($salary as $item)
-              <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label>Tipe Rumah</label>
-            <select name="subHomeFurnitureId" class="custom-select" required>
-              <option value="" selected disabled hidden>Pilih Perabotan Rumah</option>
-              @foreach ($houseType as $item)
-              <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-              @endforeach
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="col-md-6 mb-3">
-            <label>Anggota Keluarga</label>
-            <select name="subFamilyMemberId" class="custom-select" required>
-              <option value="" selected disabled hidden>Pilih jumlah Anggota Keluarga</option>
-              @foreach ($familyMember as $item)
-              <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label>Wilayah</label>
-            <select name="subAreaId" class="custom-select" required>
-              <option value="" selected disabled hidden>Pilih wilayah</option>
-              @foreach ($area as $item)
-              <option value="{{ $item['id'] }}">{{ $item['name_area'] }}</option>
-              @endforeach
-            </select>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    
 
     <div class="col">
       <button type="submit" class="float-right btn btn-primary mb-3">Buat Properti</button>
